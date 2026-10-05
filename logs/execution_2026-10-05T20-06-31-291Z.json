@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-10-05T20:06:31.291Z",
+  "context": {
+    "testPlanContent": "### RF-5.1 y RF-5.2 - Captura de Tiempo (Manual e Inferencia IA)\n\n1. Navegar a la pantalla del Tracker de tiempo (/tracker).\n2. Llenar el input de descripción con la tarea \"Desarrollo de nueva interfaz y refactorización\".\n3. Hacer clic en el botón de guardar o capturar tiempo.\n4. (Assert) Validar que aparezca un elemento o texto confirmando que el registro se ha guardado exitosamente o que la lista de tiempo se haya actualizado.",
+    "startUrl": "http://localhost:3000/tracker"
+  },
+  "stepsExecuted": []
+}

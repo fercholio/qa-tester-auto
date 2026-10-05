@@ -1,0 +1,19 @@
+{
+  "timestamp": 1791230790373,
+  "url": "http://localhost:3000/tracker",
+  "surface": {
+    "url": "http://localhost:3000/tracker",
+    "inputs": [],
+    "buttons": [
+      {
+        "cssSelector": ".toast__dismiss",
+        "text": "×"
+      }
+    ],
+    "auth": {
+      "loginUrl": "http://localhost:3000/",
+      "user": "admin@ilco.com",
+      "pass": "password"
+    }
+  }
+}

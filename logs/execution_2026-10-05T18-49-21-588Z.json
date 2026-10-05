@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-05T18:49:21.588Z",
+  "context": {
+    "testPlanContent": "### Validación de accesibilidad en botones sin texto\n- Abrir la URL del dashboard.\n- Inspeccionar los botones con selector `.hamburger` y `.sidebar-toggle`.\n- Confirmar que cada botón posee un atributo `aria-label` descriptivo.\n- Utilizar una herramienta de accesibilidad (ej. axe-core) para ejecutar un escáner y asegurar que no existan violaciones relacionadas con 'button name'.\n- Documentar cualquier violación y, de ser necesario, reportar al equipo de UI.",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "wait",
+      "selector": ".hamburger"
+    },
+    {
+      "action": "wait",
+      "selector": ".sidebar-toggle"
+    }
+  ]
+}

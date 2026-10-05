@@ -1,0 +1,46 @@
+{
+  "timestamp": 1791230795783,
+  "url": "http://localhost:3000/settings",
+  "surface": {
+    "url": "http://localhost:3000/login",
+    "inputs": [
+      {
+        "cssSelector": "#email",
+        "type": "email",
+        "placeholder": "tu@email.com"
+      },
+      {
+        "cssSelector": "#password",
+        "type": "password",
+        "placeholder": "••••••••"
+      }
+    ],
+    "buttons": [
+      {
+        "cssSelector": ".brand",
+        "text": "HR-TCI"
+      },
+      {
+        "cssSelector": ".btn-submit",
+        "text": "Iniciar sesión"
+      },
+      {
+        "cssSelector": ".back-link",
+        "text": "Volver al inicio"
+      },
+      {
+        "cssSelector": ".toast__dismiss",
+        "text": "×"
+      },
+      {
+        "cssSelector": ".toast__dismiss",
+        "text": "×"
+      }
+    ],
+    "auth": {
+      "loginUrl": "http://localhost:3000/",
+      "user": "admin@ilco.com",
+      "pass": "password"
+    }
+  }
+}

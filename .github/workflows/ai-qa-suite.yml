@@ -1,0 +1,53 @@
+name: AI QA Surface Tester Suite
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+
+jobs:
+  ai-qa-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📦 Checkout código fuente
+        uses: actions/checkout@v4
+        
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: 📥 Instalar dependencias del Tester
+        run: npm ci
+        
+      # En un entorno real, aquí también haríamos checkout y levantaríamos el backend Laravel
+      # y el frontend Vue para que el tester tenga a dónde apuntar.
+      # Por simplicidad de este workflow, asumiremos que levantamos un entorno mockeado
+      # o apuntamos a un entorno de staging estático temporal.
+      
+      - name: 🚀 Iniciar entorno de pruebas (Frontend/Backend)
+        run: |
+          # npm run start:mock-server &
+          # sleep 5
+          echo "Servidor de pruebas inicializado"
+
+      - name: 🧠 Ejecutar Pruebas de QA Autónomas (CLI)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          npx qa-tester run --modules /dashboard --headless true
+          
+      - name: 📊 Subir Artefactos (Reporte de Verificación)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-qa-report
+          path: public/master_verification_report.html
+          retention-days: 7

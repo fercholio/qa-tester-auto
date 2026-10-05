@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-10-05T18:22:59.506Z",
+  "context": {
+    "testPlanContent": "### [Local Fallback] Interacción básica en /dashboard\n1. Navegar a http://localhost:3000/dashboard\n2. Llenar inputs disponibles con datos de prueba genéricos.\n3. Presionar el primer botón principal.",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "fill",
+      "selector": "#email",
+      "value": "gerente@ilco.com"
+    },
+    {
+      "action": "fill",
+      "selector": "#password",
+      "value": "password"
+    },
+    {
+      "action": "click",
+      "selector": "button"
+    }
+  ]
+}

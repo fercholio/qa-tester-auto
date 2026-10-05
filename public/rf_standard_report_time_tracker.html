@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Requerimientos Funcionales E2E (Standard Format)</title>
+  <style>
+    body { background: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; padding: 2rem; }
+    .container { max-width: 900px; margin: 0 auto; background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 8px; border-left: 4px solid #3b82f6; }
+    h1, h2, h3 { color: #60a5fa; }
+    pre { background: #1e293b; padding: 1rem; border-radius: 6px; overflow-x: auto; color: #a78bfa; }
+    ul { margin-bottom: 1rem; }
+    li { margin-bottom: 0.5rem; }
+    .btn { display: inline-block; padding: 0.5rem 1rem; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 4px; margin-top: 1rem; font-weight: bold; }
+    .btn:hover { background: #2563eb; }
+  </style>
+  <!-- Marked JS para renderizar Markdown a HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Especificación de Pruebas AI-QA (Módulo Captura de Tiempo)</h1>
+    <p>Este HTML contiene la traducción de los requerimientos funcionales originales al estándar AI-QA, generada por el script.</p>
+    <div id="content" style="margin-top: 2rem; border-top: 1px solid #334155; padding-top: 1rem;"></div>
+  </div>
+
+  <script>
+    const markdownText = `# 🤖 Estándar de Requerimientos Funcionales para Agentes de Testing (AI-QA)
+
+## 1. Contexto Global del Sistema
+- **Nombre del Proyecto / Módulo:** \`Tempus V2 - Módulo de Captura de Tiempo (Time Tracker)\`
+- **Roles Existentes:** \`Super-Admin\`, \`Tenant-Admin\`, \`Manager\`, \`Empleado\`
+- **Precondiciones Globales de la Suite:**  
+  - El usuario debe estar autenticado y haber seleccionado el tenant activo.  
+  - La base de datos debe estar seedeada con al menos un \`Project\`, \`Task\`, y \`Tag\`.  
+  - El usuario debe tener permiso de \`Empleado\` para registrar tiempo (o \`Manager\`/\`Tenant-Admin\` con permisos de creación de registros).  
+  - El motor de IA (Groq) debe estar disponible y autenticado.
+
+## 2. Especificación de Requerimientos y Casos de Prueba
+
+### RF-5.1 - Captura Híbrida
+- **Descripción del Negocio:** El usuario puede registrar actividades de tiempo de forma manual o mediante comandos de voz (Speech‑to‑Text).
+- **Precondiciones Específicas:**  
+  - El usuario está en la vista de “Registrar Tiempo” (Timesheet).  
+  - El micrófono del dispositivo está habilitado y tiene permiso de acceso.
+- **Roles Autorizados:** \`Empleado\`, \`Manager\` (con permiso de creación de registros).
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Navegar a \`/timesheet/new\`.
+2. Hacer clic en el botón “Agregar actividad manual”.
+3. Llenar los campos: \`Descripción\`, \`Duración\`, \`Proyecto\`, \`Tarea\`, \`Billable\`, \`Tags\`.
+4. Hacer clic en “Guardar”.
+5. **Opción de voz:**  
+   1. Hacer clic en el icono de micrófono.  
+   2. Pronunciar la descripción y duración (ej. “Reunión con cliente 2 horas”).  
+   3. Confirmar la transcripción y guardar.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Se muestra el formulario con todos los campos visibles y el botón “Guardar” habilitado.  
+- [ ] **Comportamiento:** Al guardar, el registro aparece en la lista de actividades con la duración correcta y la descripción transcrita.  
+- [ ] **Comportamiento (voz):** El micrófono inicia la grabación, la transcripción se muestra en tiempo real y el botón “Guardar” se habilita solo cuando la transcripción no está vacía.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** Micrófono no disponible.  
+  - **Aserción:** Se muestra un mensaje de error “Micrófono no accesible” y el botón de grabación queda deshabilitado.  
+- **Caso B:** El usuario intenta guardar sin completar la duración.  
+  - **Aserción:** Se muestra un mensaje de validación “La duración es obligatoria” y el registro no se guarda.
+
+---
+
+### RF-5.2 - Inferencia con IA
+- **Descripción del Negocio:** Cuando el usuario ingresa texto libre o voz, el motor de IA clasifica la actividad como “Valor” o “Administrativa” y sugiere la duración, pre‑llenando el formulario.
+- **Precondiciones Específicas:**  
+  - El usuario está en la vista de “Registrar Tiempo” con el campo de descripción visible.  
+  - El motor de IA está activo y la API de Groq responde.
+- **Roles Autorizados:** \`Empleado\`, \`Manager\`.
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Navegar a \`/timesheet/new\`.
+2. Ingresar en el campo de descripción: “Reunión con el equipo de ventas”.
+3. Esperar a que el motor de IA procese y sugiera:  
+   - Tipo: \`Valor\`  
+   - Duración sugerida: \`1.5h\`
+4. Confirmar la sugerencia y guardar el registro.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Se muestra un banner o tooltip con la clasificación (\`Valor\`/\`Administrativa\`) y la duración sugerida.  
+- [ ] **Comportamiento:** Al confirmar, el campo de duración se rellena automáticamente con la sugerencia y el tipo de actividad se marca correctamente.  
+- [ ] **Persistencia:** El registro guardado muestra la clasificación y duración exactas en la lista de actividades.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** El motor de IA devuelve una clasificación nula o error.  
+  - **Aserción:** Se muestra un mensaje “No se pudo clasificar la actividad” y el usuario debe completar manualmente los campos.  
+- **Caso B:** La duración sugerida excede el límite diario permitido por el plan.  
+  - **Aserción:** Se muestra una advertencia “Duración excede el límite diario” y el usuario puede ajustar manualmente.
+
+---
+
+### RF-5.3 - Proyectos y Tareas Recurrentes
+- **Descripción del Negocio:** El sistema mantiene un catálogo de \`Projects\` y \`Tasks\` que los usuarios pueden seleccionar para tareas repetitivas, garantizando consistencia semántica en los reportes.
+- **Precondiciones Específicas:**  
+  - Existe al menos un proyecto y una tarea en la base de datos.  
+  - El usuario tiene permiso para ver y seleccionar proyectos/tareas.
+- **Roles Autorizados:** \`Empleado\`, \`Manager\`, \`Tenant-Admin\`.
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Navegar a \`/timesheet/new\`.
+2. Hacer clic en el selector de proyecto y elegir “Proyecto X”.
+3. Hacer clic en el selector de tarea y elegir “Reunión de seguimiento”.
+4. Llenar los demás campos y guardar.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Los dropdowns de proyecto y tarea muestran las opciones disponibles y se actualizan dinámicamente según el proyecto seleccionado.  
+- [ ] **Comportamiento:** Al guardar, el registro almacena la referencia al proyecto y tarea seleccionados.  
+- [ ] **Reportes:** Los informes de tiempo muestran la actividad bajo el proyecto y tarea correctos, sin variaciones de texto.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** El proyecto seleccionado no tiene tareas asociadas.  
+  - **Aserción:** Se muestra un mensaje “No hay tareas disponibles para este proyecto” y el selector de tarea queda deshabilitado.  
+- **Caso B:** El usuario intenta crear una tarea que ya existe con el mismo nombre.  
+  - **Aserción:** Se muestra una advertencia “La tarea ya existe” y se sugiere seleccionar la existente.
+
+---
+
+### RF-5.4 - Paridad de Formularios de Entrada
+- **Descripción del Negocio:** Todas las interfaces de captura (Semanal, Manual, Lote) deben mantener consistencia de campos, permitiendo marcar el registro como “Facturable” y asignar “Etiquetas” de forma unificada.
+- **Precondiciones Específicas:**  
+  - El usuario está en cualquiera de las vistas de captura (semana, manual, lote).  
+  - Los campos de “Facturable” y “Etiquetas” están disponibles en cada formulario.
+- **Roles Autorizados:** \`Empleado\`, \`Manager\`.
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Navegar a \`/timesheet/weekly\`.
+2. Seleccionar una actividad y marcar la casilla “Facturable”.
+3. Añadir la etiqueta “Reunión” usando el selector de tags.
+4. Guardar la hoja de tiempo.
+5. Repetir el proceso en la vista de “Tracker Manual” y “Edición en Lote” con los mismos pasos.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Los formularios de todas las vistas muestran los mismos campos: \`Descripción\`, \`Duración\`, \`Proyecto\`, \`Tarea\`, \`Facturable\`, \`Etiquetas\`.  
+- [ ] **Comportamiento:** Al marcar “Facturable” y asignar tags, el registro guarda estos atributos correctamente.  
+- [ ] **Persistencia:** Los registros guardados aparecen con el flag \`billable = true\` y la lista de tags asociadas en la base de datos.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** El usuario intenta marcar “Facturable” sin seleccionar un proyecto.  
+  - **Aserción:** Se muestra una validación “Selecciona un proyecto antes de marcar como facturable”.  
+- **Caso B:** Se intenta asignar una etiqueta que no existe en el catálogo.  
+  - **Aserción:** Se muestra un mensaje “Etiqueta no válida” y el usuario debe elegir una etiqueta existente.
+
+---
+
+## 3. Selector de Contexto y Datos (Variables)
+
+\`\`\`json
+{
+  "test_users": {
+    "super_admin": "super@tempus.com",
+    "tenant_admin": "admin@empresa.com",
+    "manager": "manager@empresa.com",
+    "employee": "employee@empresa.com"
+  },
+  "selectors": {
+    "login_button": "button[type='submit']",
+    "timesheet_new_button": "#timesheet-new",
+    "description_input": "#description",
+    "duration_input": "#duration",
+    "project_dropdown": "#project-select",
+    "task_dropdown": "#task-select",
+    "billable_checkbox": "#billable",
+    "tags_input": "#tags-select",
+    "voice_button": "#voice-record",
+    "save_button": "#save-timesheet",
+    "ai_banner": "#ai-suggestion",
+    "error_message": ".error-msg",
+    "success_message": ".success-msg"
+  },
+  "test_data": {
+    "projects": [
+      { "id": 1, "name": "Proyecto X" },
+      { "id": 2, "name": "Proyecto Y" }
+    ],
+    "tasks": [
+      { "id": 1, "name": "Reunión de seguimiento", "project_id": 1 },
+      { "id": 2, "name": "Análisis de datos", "project_id": 2 }
+    ],
+    "tags": [
+      { "id": 1, "name": "Reunión" },
+      { "id": 2, "name": "Desarrollo" }
+    ]
+  }
+}
+\`\`\`
+
+> **Nota para el Agente:** Utiliza los selectores y datos de prueba anteriores para construir scripts Playwright que verifiquen cada uno de los casos de prueba descritos. Cada test debe iniciar con la autenticación del usuario correspondiente y terminar con la limpieza de los registros creados para mantener la idempotencia.`;
+    document.getElementById('content').innerHTML = marked.parse(markdownText);
+  </script>
+</body>
+</html>
+  

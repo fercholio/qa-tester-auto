@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte Funcional de Pruebas (E2E)</title>
+  <style>
+    body { background: #0f172a; color: #e2e8f0; font-family: sans-serif; padding: 2rem; }
+    .card { background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 8px; max-width: 900px; margin: 0 auto; border-left: 4px solid #3b82f6; }
+    h1 { text-align: center; color: #fff; margin-bottom: 2rem; }
+    h2 { color: #3b82f6; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+    .metric { margin: 10px 0; font-size: 1.1rem; }
+    .metric span { font-weight: bold; color: #fff; }
+    .step { background: rgba(255,255,255,0.05); padding: 1rem; margin-top: 1rem; border-radius: 6px; }
+    .step-img { max-width: 100%; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+    .status-success { color: #2ecc71; font-weight: bold; }
+    .status-failed { color: #e74c3c; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Reporte de Pruebas Funcionales: Módulo de Captura y Configuraciones</h1>
+  <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem auto; color: #94a3b8;">
+    Este reporte fue generado de manera autónoma. La IA tomó los requerimientos funcionales, ingresó a la aplicación, navegó y aplicó las pruebas con Aserciones VRT y Self-Healing en tiempo real.
+  </p>
+  <div style="text-align: center; margin-bottom: 2rem;">Total de acciones ejecutadas en UI: <strong>3</strong></div>
+  
+    <div class="card" style="margin-bottom: 2rem;">
+      <h2>Resultado: E2E Testing (Suite)</h2>
+      <div class="metric">Acciones Ejecutadas: <span>3</span></div>
+      <div class="metric">Errores Detectados: <span style="color: #2ecc71">0</span></div>
+      
+      
+      <div style="margin-top: 1rem; background: rgba(231, 76, 60, 0.1); border-left: 4px solid #e74c3c; padding: 1rem; border-radius: 4px;">
+        <h3 style="color: #e74c3c; margin-top: 0;">💡 Sugerencias Proactivas (Auto-Healer)</h3>
+        <ul style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0;">
+          <li style="margin-bottom: 0.5rem;">El selector '.btn-submit' es genérico. Agrega un atributo 'id', 'name' o 'data-testid' para tests más estables.</li>
+        </ul>
+      </div>
+      
+
+      
+      <h3 style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">Trazabilidad Paso a Paso</h3>
+      
+        <div class="step">
+          <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">
+            <strong>Paso 1:</strong> <span style="text-transform: uppercase;">fill</span> 
+            <code style="color: #60a5fa; background: rgba(0,0,0,0.5); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem;">#email</code>
+          </div>
+          <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Valor Inyectado: admin@ilco.com</div>
+          <div style="margin-bottom: 0.5rem;">
+            Estado: <span class="status-success">Éxito</span>
+            
+          </div>
+          
+          <div style="margin-top: 0.5rem; font-size: 0.85rem; padding: 0.5rem; background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71;">
+            <strong>VRT (Visual Regression):</strong> 
+            Nuevos baselines creados.
+            
+          </div>
+          
+          <img src="file:///Users/fercho/dev/qa-surface-tester/generated_tests/step_1791230797173_1.png" class="step-img" alt="Paso 1" />
+        </div>
+      
+        <div class="step">
+          <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">
+            <strong>Paso 2:</strong> <span style="text-transform: uppercase;">fill</span> 
+            <code style="color: #60a5fa; background: rgba(0,0,0,0.5); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem;">#password</code>
+          </div>
+          <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Valor Inyectado: password</div>
+          <div style="margin-bottom: 0.5rem;">
+            Estado: <span class="status-success">Éxito</span>
+            
+          </div>
+          
+          <div style="margin-top: 0.5rem; font-size: 0.85rem; padding: 0.5rem; background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71;">
+            <strong>VRT (Visual Regression):</strong> 
+            Nuevos baselines creados.
+            
+          </div>
+          
+          <img src="file:///Users/fercho/dev/qa-surface-tester/generated_tests/step_1791230797752_2.png" class="step-img" alt="Paso 2" />
+        </div>
+      
+        <div class="step">
+          <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">
+            <strong>Paso 3:</strong> <span style="text-transform: uppercase;">click</span> 
+            <code style="color: #60a5fa; background: rgba(0,0,0,0.5); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem;">.btn-submit</code>
+          </div>
+          
+          <div style="margin-bottom: 0.5rem;">
+            Estado: <span class="status-success">Éxito</span>
+            
+          </div>
+          
+          <div style="margin-top: 0.5rem; font-size: 0.85rem; padding: 0.5rem; background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71;">
+            <strong>VRT (Visual Regression):</strong> 
+            Nuevos baselines creados.
+            
+          </div>
+          
+          <img src="file:///Users/fercho/dev/qa-surface-tester/generated_tests/step_1791230798331_3.png" class="step-img" alt="Paso 3" />
+        </div>
+      
+      
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Surface Tester</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <nav class="glass-panel" style="display: flex; gap: 2rem; padding: 1rem; margin-bottom: 1rem; justify-content: center;">
+      <a href="#" onclick="switchTab('e2e', this)" class="nav-link active" style="color: var(--primary); font-weight: bold; text-decoration: none; border-bottom: 2px solid var(--primary);">🌐 E2E & Chaos</a>
+      <a href="#" onclick="switchTab('unit', this)" class="nav-link" style="color: var(--text-light); font-weight: bold; text-decoration: none;">📝 Unit Tests</a>
+      <a href="#" onclick="switchTab('seo', this)" class="nav-link" style="color: var(--text-light); font-weight: bold; text-decoration: none;">🔍 SEO & A11y Audit</a>
+      <a href="#" onclick="switchTab('master', this)" class="nav-link" style="color: var(--text-light); font-weight: bold; text-decoration: none;">👑 Fase 3 (Master Verification)</a>
+    </nav>
+    <header class="glass-panel header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <h1>QA Surface Tester</h1>
+      </div>
+      <p class="subtitle">Automated Discovery & Testing Intelligence</p>
+    </header>
+
+    <div id="tab-e2e" class="tab-content">
+      <main class="main-content">
+      <aside class="glass-panel controls">
+        <h2>Configuración</h2>
+        <form id="crawler-form">
+          <div class="input-group">
+            <label for="startUrl">URL de Inicio</label>
+            <input type="url" id="startUrl" value="http://localhost:3000" required>
+          </div>
+          <div class="input-group">
+            <label for="maxPages">Límite de Páginas</label>
+            <input type="number" id="maxPages" value="25" min="1" max="100">
+          </div>
+          
+          <h3 style="color: var(--secondary); font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">Autenticación (Opcional)</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <div class="input-group">
+              <label for="authLoginUrl">URL de Login</label>
+              <input type="url" id="authLoginUrl" placeholder="http://localhost:3000/login" value="http://localhost:3000/login">
+            </div>
+            <div class="input-group">
+              <label for="authUser">Usuario</label>
+              <input type="text" id="authUser" placeholder="admin@ilco.com">
+            </div>
+            <div class="input-group">
+              <label for="authPass">Contraseña</label>
+              <input type="password" id="authPass" placeholder="password">
+            </div>
+            <div class="input-group">
+              <label for="authUserSel">Selector Usuario</label>
+              <input type="text" id="authUserSel" placeholder="(Auto-detectar)">
+            </div>
+            <div class="input-group">
+              <label for="authPassSel">Selector Password</label>
+              <input type="text" id="authPassSel" placeholder="(Auto-detectar)">
+            </div>
+            <div class="input-group">
+              <label for="authSubmitSel">Selector Botón</label>
+              <input type="text" id="authSubmitSel" placeholder="(Auto-detectar)">
+            </div>
+          </div>
+
+          <button type="submit" id="startBtn" class="btn-primary" style="margin-bottom: 2rem;">
+            <span class="btn-text">Iniciar Scraper</span>
+            <div class="loader" id="btnLoader"></div>
+          </button>
+        </form>
+
+        <h2 style="margin-top: 2rem;">Paso 2: Generar y Seleccionar Pruebas</h2>
+        <div class="input-group">
+          <label for="groqKeyStep2">Groq API Key (Requerido para generar)</label>
+          <input type="password" id="groqKeyStep2" placeholder="gsk_..." required value="">
+        </div>
+        <button type="button" id="generatePlanBtn" class="btn-primary" style="background: var(--secondary); margin-bottom: 1rem;" disabled>
+          <span class="btn-text">Generar Test Plan Inteligente</span>
+          <div class="loader" id="generateLoader"></div>
+        </button>
+
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Páginas</h3>
+            <div class="stat-value" id="stat-pages">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Formularios</h3>
+            <div class="stat-value" id="stat-forms">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Inputs</h3>
+            <div class="stat-value" id="stat-inputs">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Botones</h3>
+            <div class="stat-value" id="stat-buttons">0</div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="results">
+        <div class="glass-panel terminal-container">
+          <div class="terminal-header">
+            <span>Terminal Live Feed</span>
+            <div class="dots">
+              <i></i><i></i><i></i>
+            </div>
+          </div>
+          <div class="terminal-body" id="terminal">
+            <div class="log-entry info">Esperando iniciar...</div>
+          </div>
+        </div>
+
+        <div class="glass-panel map-container">
+          <h2>Surface Map</h2>
+          <div class="map-list" id="map-list">
+            <p class="empty-text">El mapa de la superficie de QA aparecerá aquí.</p>
+          </div>
+        </div>
+
+        <div id="testPlanContainer" class="glass-panel" style="display: none; margin-top: 1rem; border: 1px solid var(--warning);">
+          <h2 style="color: var(--warning); margin-bottom: 1rem;">Casos Propuestos por IA</h2>
+          <div id="testCasesList" style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; max-height: 300px; overflow-y: auto;">
+            <!-- Checkboxes here -->
+          </div>
+          
+          <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+            <div style="flex: 1;">
+              <button type="button" id="executeSelectedBtn" class="btn-primary" style="background: var(--warning); color: #000; width: 100%;">
+                <span class="btn-text">Ejecutar Seleccionados</span>
+                <div class="loader" id="executeLoader"></div>
+              </button>
+              <p style="font-size: 0.75rem; color: var(--text-main); margin-top: 0.5rem; text-align: center;">🤖 Navega sutilmente siguiendo el plan (End-to-End)</p>
+            </div>
+            
+            <div style="flex: 1;">
+              <button type="button" id="chaosBtn" class="btn-primary" style="background: #e74c3c; color: white; width: 100%;">
+                <span class="btn-text">🐵 Iniciar Monkey / Chaos Test</span>
+                <div class="loader" id="chaosLoader"></div>
+              </button>
+              <p style="font-size: 0.75rem; color: var(--text-main); margin-top: 0.5rem; text-align: center;">💥 Inyecta basura maliciosa ignorando planes (Fuzzing)</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="rfTestContainer" class="glass-panel" style="margin-top: 1rem; border: 1px solid #9b59b6;">
+          <h2 style="color: #9b59b6; margin-bottom: 1rem;">Generar Tests desde Requerimientos (MD)</h2>
+          <p style="font-size: 0.85rem; margin-bottom: 1rem;">Usa el estándar AI-QA para traducir la documentación de negocio en casos de prueba E2E estructurados y listos para ejecutarse.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button type="button" id="rfTranslateBtn" class="btn-primary" style="background: #9b59b6; color: white;" onclick="window.open('/rf_standard_report.html', '_blank')">
+              <span class="btn-text">Ver RF: Multi-Tenant</span>
+            </button>
+            <button type="button" id="rfTranslateBtn2" class="btn-primary" style="background: #3498db; color: white;" onclick="window.open('/rf_standard_report_time_tracker.html', '_blank')">
+              <span class="btn-text">Ver RF: Captura de Tiempo</span>
+            </button>
+            <button type="button" id="rfTranslateBtn3" class="btn-primary" style="background: #e67e22; color: white;" onclick="window.open('/rf_standard_report_tenant_settings.html', '_blank')">
+              <span class="btn-text">Ver RF: Configuración Inquilino</span>
+            </button>
+            <button type="button" id="rfExecuteBtn" class="btn-primary" style="background: #e74c3c; color: white; border: 2px solid white; box-shadow: 0 0 10px rgba(231,76,60,0.5);" onclick="window.open('/rf_e2e_report.html', '_blank')">
+              <span class="btn-text">▶️ Ver Ejecución E2E de RFs</span>
+            </button>
+            <button type="button" id="masterVerifyBtn" class="btn-primary" style="background: #9b59b6; color: white; border: 2px solid white; box-shadow: 0 0 15px rgba(155,89,182,0.8);" onclick="window.open('/master_verification_report.html', '_blank')">
+              <span class="btn-text">👑 Reporte Maestro de Fase 3 (En Vivo)</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="testResultsContainer" class="glass-panel" style="display: none; margin-top: 1rem;">
+          <h2 style="margin-bottom: 1rem; color: #2ecc71;">Resultados de Ejecución</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <canvas id="resultsChart" width="400" height="400"></canvas>
+            </div>
+            <div id="testMetrics" style="display: flex; flex-direction: column; justify-content: center; gap: 1rem;">
+              <!-- Text metrics will appear here -->
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+    </div> <!-- end tab-e2e -->
+
+    <!-- TAB: UNIT TESTS -->
+    <div id="tab-unit" class="tab-content" style="display: none;">
+      <main class="main-content" style="grid-template-columns: 1fr;">
+        <aside class="glass-panel controls" style="width: 100%; max-width: 800px; margin: 0 auto;">
+          <h2 style="margin-top: 1rem; color: #3498db;">Análisis Estático</h2>
+          <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #3498db;">
+            <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-main);">Ingresa la ruta absoluta de un archivo `.vue` o `.php` en tu repositorio. La IA lo leerá localmente y generará pruebas unitarias (Vitest/Pest).</p>
+            <div class="input-group">
+              <label for="groqKeyStatic">Groq API Key (Requerido para generar)</label>
+              <input type="password" id="groqKeyStatic" placeholder="gsk_..." value="">
+            </div>
+          </div>
+
+          <h2 style="margin-top: 2rem; color: #3498db;">Paso 3: Unit / Integration Tests Estáticos</h2>
+          <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border: 1px solid #3498db;">
+            <div class="input-group">
+              <label for="unitFilePath">Ruta absoluta del archivo a testear</label>
+              <input type="text" id="unitFilePath" placeholder="/Users/fercho/dev/timetracking/web/src/components/common/BaseDatePicker.vue">
+            </div>
+            <button type="button" id="unitTestBtn" class="btn-primary" style="background: #3498db; color: white;">
+              <span class="btn-text">Generar Unit Test</span>
+              <div class="loader" id="unitLoader"></div>
+            </button>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- TAB: SEO AUDIT -->
+    <div id="tab-seo" class="tab-content" style="display: none;">
+      <main class="main-content" style="grid-template-columns: 1fr;">
+        <aside class="glass-panel controls" style="width: 100%;">
+          <h2 style="margin-top: 1rem; color: #f1c40f;">Auditoría Técnica: SEO, A11y y Rendimiento</h2>
+          <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; border: 1px solid #f1c40f;">
+            <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-main);">Resultados consolidados de la última ejecución del Crawler.</p>
+            <div id="seoAuditContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+               <p style="color: var(--text-main); font-style: italic;">Esperando resultados del Crawler... (Ejecuta un escaneo en la pestaña E2E para poblar esta tabla)</p>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- TAB: MASTER VERIFICATION -->
+    <div id="tab-master" class="tab-content" style="display: none;">
+      <main class="main-content" style="grid-template-columns: 1fr;">
+        <aside class="glass-panel controls" style="width: 100%; height: 80vh; display: flex; flex-direction: column;">
+          <h2 style="margin-top: 1rem; color: #9b59b6; margin-bottom: 1rem;">Master Verification Report (Fase 3 - En Vivo)</h2>
+          <iframe src="/master_verification_report.html" style="width: 100%; flex-grow: 1; border: none; border-radius: 8px; background: white;"></iframe>
+        </aside>
+      </main>
+    </div>
+
+  </div>
+  
+  <script>
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-content').forEach(d => d.style.display = 'none');
+      document.getElementById('tab-' + tabId).style.display = 'block';
+      
+      document.querySelectorAll('.nav-link').forEach(a => {
+        a.style.color = 'var(--text-light)';
+        a.style.borderBottom = 'none';
+      });
+      el.style.color = 'var(--primary)';
+      el.style.borderBottom = '2px solid var(--primary)';
+    }
+  </script>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

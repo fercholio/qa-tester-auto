@@ -1,0 +1,123 @@
+{
+  "timestamp": 1791226175034,
+  "url": "http://localhost:3000/dashboard",
+  "surface": {
+    "url": "http://localhost:3000/dashboard",
+    "inputs": [
+      {
+        "cssSelector": ".tenant-select",
+        "type": "select-one"
+      }
+    ],
+    "buttons": [
+      {
+        "cssSelector": ".hamburger",
+        "text": ""
+      },
+      {
+        "cssSelector": ".sidebar-toggle",
+        "text": ""
+      },
+      {
+        "cssSelector": ".logo",
+        "text": "TimeTracker"
+      },
+      {
+        "cssSelector": "#theme-toggle",
+        "text": ""
+      },
+      {
+        "cssSelector": ".bell-button",
+        "text": ""
+      },
+      {
+        "cssSelector": ".user-chip",
+        "text": "CR\nCarlos Rodríguez (Gerente)"
+      },
+      {
+        "cssSelector": ".btn-logout",
+        "text": ""
+      },
+      {
+        "cssSelector": ".router-link-active",
+        "text": "Dashboard"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Registrar"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Cronómetro"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Bitácora"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Entradas"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Organigrama"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Proyecto"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Reportes"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Aprobaciones"
+      },
+      {
+        "cssSelector": "a",
+        "text": "Análisis IA"
+      },
+      {
+        "cssSelector": ".profile-link",
+        "text": "CR\nCarlos Rodríguez (Gerente)\nManager"
+      },
+      {
+        "cssSelector": ".timer-btn",
+        "text": "Iniciar"
+      },
+      {
+        "cssSelector": ".action-btn",
+        "text": "Iniciar Timer"
+      },
+      {
+        "cssSelector": ".action-btn",
+        "text": "Nueva Entrada"
+      },
+      {
+        "cssSelector": ".action-btn",
+        "text": "Ver Reportes"
+      },
+      {
+        "cssSelector": ".action-btn",
+        "text": "Eficiencia BI"
+      },
+      {
+        "cssSelector": ".action-btn",
+        "text": "Usuarios"
+      },
+      {
+        "cssSelector": ".view-all",
+        "text": "Ver todas →"
+      }
+    ],
+    "auth": {
+      "loginUrl": "http://localhost:3000/login",
+      "user": "gerente@ilco.com",
+      "pass": "password",
+      "userSel": "input[type=\"email\"], input[name*=\"user\"], input[name*=\"email\"]",
+      "passSel": "input[type=\"password\"]",
+      "submitSel": "button[type=\"submit\"], form button, .btn-primary"
+    }
+  }
+}

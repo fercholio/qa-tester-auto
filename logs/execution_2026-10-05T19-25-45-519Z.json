@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-10-05T19:25:45.519Z",
+  "context": {
+    "testPlanContent": "dummy-plan",
+    "startUrl": "http://test.com"
+  },
+  "stepsExecuted": []
+}

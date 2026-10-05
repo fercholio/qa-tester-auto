@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-10-05T18:49:41.251Z",
+  "context": {
+    "testPlanContent": "### Validación de accesibilidad y presencia de etiquetas ARIA en botones críticos\n1. Navegar a la URL indicada.\n2. Inspeccionar el elemento con selector `.hamburger` y confirmar que posee `aria-label` o `aria-labelledby` descriptivo.\n3. Repetir la inspección para `.sidebar-toggle`.\n4. Utilizar una herramienta de auditoría (ej. axe-core) para ejecutar un escaneo de accesibilidad.\n5. Documentar cualquier violación relacionada con botones sin texto.\n6. Corregir los atributos faltantes y volver a ejecutar la auditoría para asegurar la resolución.",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "wait",
+      "selector": ".hamburger",
+      "value": ""
+    },
+    {
+      "action": "wait",
+      "selector": ".sidebar-toggle",
+      "value": ""
+    }
+  ]
+}

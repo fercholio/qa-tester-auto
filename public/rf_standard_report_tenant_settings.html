@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Requerimientos Funcionales E2E (Standard Format)</title>
+  <style>
+    body { background: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; padding: 2rem; }
+    .container { max-width: 900px; margin: 0 auto; background: rgba(0,0,0,0.3); padding: 2rem; border-radius: 8px; border-left: 4px solid #3b82f6; }
+    h1, h2, h3 { color: #60a5fa; }
+    pre { background: #1e293b; padding: 1rem; border-radius: 6px; overflow-x: auto; color: #a78bfa; }
+    ul { margin-bottom: 1rem; }
+    li { margin-bottom: 0.5rem; }
+    .btn { display: inline-block; padding: 0.5rem 1rem; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 4px; margin-top: 1rem; font-weight: bold; }
+    .btn:hover { background: #2563eb; }
+  </style>
+  <!-- Marked JS para renderizar Markdown a HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Especificación de Pruebas AI-QA (Módulo Configuración Empresa/Inquilino)</h1>
+    <p>Este HTML contiene la traducción de los requerimientos funcionales originales al estándar AI-QA, generada por el script.</p>
+    <div id="content" style="margin-top: 2rem; border-top: 1px solid #334155; padding-top: 1rem;"></div>
+  </div>
+
+  <script>
+    const markdownText = `# 🤖 Estándar de Requerimientos Funcionales para Agentes de Testing (AI-QA)
+
+## 1. Contexto Global del Sistema
+- **Nombre del Proyecto / Módulo:** \`Tempus V2 – Módulo de Configuraciones por Inquilino (Tenant Settings)\`
+- **Roles Existentes:** \`Super-Admin\`, \`Tenant-Admin\`, \`Manager\`, \`Empleado\`
+- **Precondiciones Globales de la Suite:**  
+  - El usuario debe estar autenticado y autorizado para acceder a la sección de configuración.  
+  - La base de datos debe estar seedeada con datos reales (sin mocks) y contener al menos un \`Tenant\` con su registro de configuración.  
+  - El entorno de pruebas debe contar con los datos de \`tenant_settings\` generados por los seeders.
+
+---
+
+## 2. Especificación de Requerimientos y Casos de Prueba
+
+### RF-10.1 – Configuraciones Aisladas
+- **Descripción del Negocio:** Cada corporativo (\`Tenant\`) posee su propio registro de configuraciones globales (zona horaria, días laborables, cierres de periodo, tolerancia de horas). Los valores deben ser accesibles y modificables únicamente por el propietario del tenant.
+- **Precondiciones Específicas:**  
+  - Existe un \`Tenant\` activo con un registro \`tenant_settings\` asociado.  
+  - El usuario autenticado pertenece a ese \`Tenant\`.
+- **Roles Autorizados:** \`Super-Admin\`, \`Tenant-Admin\`
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Navegar a \`/tenant-settings\` (URL del panel de configuración del tenant).  
+2. Verificar que los campos de configuración (timezone, workdays, etc.) estén visibles y contengan los valores actuales.  
+3. Cambiar el valor de \`timezone\` a \`America/Mexico_City\`.  
+4. Hacer clic en el botón \`Guardar\`.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Se muestra un mensaje de éxito “Configuraciones guardadas”.  
+- [ ] **Comportamiento:** El valor de \`timezone\` persiste en la base de datos y se refleja en la UI al recargar la página.  
+- [ ] **Seguridad:** No se pueden ver configuraciones de otros tenants (verifica que los campos no contengan datos de otro tenant).
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** Un \`Manager\` intenta acceder a \`/tenant-settings\`.  
+  - **Aserción:** Se muestra un error 403 “Acceso denegado”.  
+- **Caso B:** Un \`Tenant-Admin\` de Tenant A intenta modificar la configuración de Tenant B.  
+  - **Aserción:** Se muestra un error 403 y la base de datos no cambia.
+
+---
+
+### RF-10.2 – Privilegios de Modificación
+- **Descripción del Negocio:** Solo el dueño del tenant (\`tenant_admin\`) y el \`super_admin\` pueden modificar los parámetros de configuración.  
+- **Precondiciones Específicas:**  
+  - El usuario autenticado es \`Tenant-Admin\` o \`Super-Admin\`.  
+  - Existe un registro \`tenant_settings\` para el tenant del usuario.  
+- **Roles Autorizados:** \`Super-Admin\`, \`Tenant-Admin\`
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Iniciar sesión como \`Tenant-Admin\`.  
+2. Navegar a \`/tenant-settings\`.  
+3. Modificar el campo \`workdays\` a \`Mon-Fri\`.  
+4. Hacer clic en \`Guardar\`.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Mensaje de éxito y los cambios persisten.  
+- [ ] **Comportamiento:** El \`Tenant-Admin\` puede ver el botón \`Guardar\`.  
+- [ ] **Seguridad:** Un \`Empleado\` no ve el botón \`Guardar\`.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** Un \`Empleado\` intenta enviar una petición PATCH a \`/tenant-settings\`.  
+  - **Aserción:** Respuesta 403 y la configuración no cambia.  
+- **Caso B:** Un \`Super-Admin\` intenta modificar la configuración de un tenant sin plan activo.  
+  - **Aserción:** Se permite la modificación, pero se registra en el log de auditoría.
+
+---
+
+### RF-10.3 – Inicialización (Seeder)
+- **Descripción del Negocio:** Al crear un nuevo tenant, el sistema debe generar automáticamente su configuración base mediante seeders para garantizar parámetros predeterminados.  
+- **Precondiciones Específicas:**  
+  - Se ejecuta el proceso de creación de tenant (por ejemplo, a través de la API \`/tenants\`).  
+  - No existe registro \`tenant_settings\` previo para ese tenant.  
+- **Roles Autorizados:** \`Super-Admin\`
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Crear un nuevo tenant \`ILCO 3\` mediante la API o UI.  
+2. Verificar que se haya creado un registro \`tenant_settings\` con valores por defecto.  
+3. Navegar a \`/tenant-settings\` del nuevo tenant y confirmar que los campos muestran los valores por defecto.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **Base de Datos:** Existe un registro \`tenant_settings\` con \`tenant_id\` = \`ILCO 3\`.  
+- [ ] **UI:** Los campos de configuración muestran valores por defecto (p.ej., \`timezone = UTC\`, \`workdays = Mon-Fri\`).  
+- [ ] **Auditoría:** Se registra la creación del tenant y la inicialización de su configuración.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** Se elimina manualmente el registro \`tenant_settings\` de un tenant existente.  
+  - **Aserción:** Al intentar acceder a \`/tenant-settings\`, se muestra un error 404 y se sugiere recrear la configuración.  
+- **Caso B:** Se intenta crear un tenant con un \`plan_id\` nulo.  
+  - **Aserción:** El proceso de creación falla con mensaje “Plan requerido”, y no se crea \`tenant_settings\`.
+
+---
+
+### RF-10.4 – Terminología Corporativa Personalizada
+- **Descripción del Negocio:** Cada tenant puede personalizar los términos usados en la UI para “Proyecto”, “Tarea” y “Timesheet” (por defecto “Bitácora”).  
+- **Precondiciones Específicas:**  
+  - El usuario autenticado es \`Tenant-Admin\` o \`Super-Admin\`.  
+  - Existe un registro \`tenant_settings\` con campos \`project_term\`, \`task_term\`, \`timesheet_term\`.  
+- **Roles Autorizados:** \`Super-Admin\`, \`Tenant-Admin\`
+
+#### 🛠️ Secuencia de Acciones (Happy Path)
+1. Iniciar sesión como \`Tenant-Admin\`.  
+2. Navegar a \`/tenant-settings\`.  
+3. Cambiar \`project_term\` a “Proyecto X”, \`task_term\` a “Tarea Y”, \`timesheet_term\` a “Registro Z".  
+4. Hacer clic en \`Guardar\`.  
+5. Navegar a la vista de proyectos y verificar que el encabezado muestre “Proyecto X”.  
+6. Navegar a la vista de tareas y verificar que el encabezado muestre “Tarea Y”.  
+7. Navegar a la vista de timesheet y verificar que el encabezado muestre “Registro Z”.
+
+#### ✅ Aserciones Esperadas (Asserts)
+- [ ] **UI:** Los encabezados y menús reflejan los términos personalizados.  
+- [ ] **Persistencia:** Los valores se guardan en la tabla \`tenant_settings\`.  
+- [ ] **Escalabilidad:** Los cambios no afectan a otros tenants.
+
+#### ⚠️ Escenarios de Borde (Edge Cases / Negative Paths)
+- **Caso A:** Un \`Super-Admin\` intenta cambiar la terminología de todos los tenants a la vez.  
+  - **Aserción:** Se permite solo para el tenant actual; no se pueden modificar configuraciones de otros tenants.  
+- **Caso B:** Un \`Tenant-Admin\` intenta usar un término vacío (string vacío).  
+  - **Aserción:** Se muestra un error de validación “El término no puede estar vacío” y la configuración no se guarda.
+
+---
+
+## 3. Selector de Contexto y Datos (Variables)
+
+\`\`\`json
+{
+  "test_users": {
+    "super_admin": "super@tempus.com",
+    "tenant_admin": "admin@ilco.com",
+    "manager": "manager@ilco.com",
+    "employee": "employee@ilco.com"
+  },
+  "selectors": {
+    "tenant_settings_page": "/tenant-settings",
+    "timezone_input": "#timezone",
+    "workdays_input": "#workdays",
+    "project_term_input": "#project_term",
+    "task_term_input": "#task_term",
+    "timesheet_term_input": "#timesheet_term",
+    "save_button": "button[type='submit']",
+    "success_toast": ".toast-success",
+    "error_toast": ".toast-error",
+    "tenant_dropdown": "#tenant-switcher"
+  }
+}
+\`\`\`
+
+> **Nota para el Agente:**  
+> Cada bloque de requerimiento debe ser traducido a un conjunto de instrucciones de Playwright (o Cypress) que incluyan la navegación, interacción con los selectores y las aserciones indicadas.  
+> Los casos de borde deben incluir la simulación de roles distintos y la verificación de los códigos de respuesta HTTP o mensajes de error en la UI.`;
+    document.getElementById('content').innerHTML = marked.parse(markdownText);
+  </script>
+</body>
+</html>
+  

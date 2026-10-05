@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-10-05T19:22:08.644Z",
+  "context": {
+    "testPlanContent": "dummy-plan",
+    "startUrl": "http://test.com"
+  },
+  "stepsExecuted": [
+    {
+      "action": "fill",
+      "selector": ".new-input",
+      "value": "hello",
+      "autoHealed": true
+    }
+  ]
+}

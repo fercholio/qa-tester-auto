@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-10-05T18:42:54.221Z",
+  "context": {
+    "testPlanContent": "### Persistencia de tema y validación de selector de inquilino con payload malicioso\n1. **Abrir** la URL indicada.\n2. **Observar** el tema actual (claro/oscuro).\n3. **Hacer clic** en `#theme-toggle` y confirmar el cambio de tema.\n4. **Recargar** la página y validar que el tema seleccionado se mantiene.\n5. **Abrir** la consola del navegador y ejecutar un script que inyecte una opción maliciosa en el `<select class=\"tenant-select\">` (e.g., `<option value=\"<script>alert(1)</script>\">Malicioso</option>`).\n6. **Seleccionar** la opción inyectada y **enviar** (si existe acción automática) o observar cualquier reacción del UI.\n7. **Verificar** que la aplicación **no ejecuta** el script y muestra un mensaje de error o ignora la opción.\n8. **Comprobar** que los botones sin texto (`.hamburger`, `.sidebar-toggle`, `.bell-button`) tengan atributos `aria-label` después de una actualización de accesibilidad (puede requerir inspección del DOM).\n9. **Registrar** resultados y capturas de pantalla.\n---",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "wait",
+      "selector": ".logo",
+      "value": ""
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle",
+      "value": ""
+    },
+    {
+      "action": "wait",
+      "selector": ".tenant-select",
+      "value": ""
+    },
+    {
+      "action": "click",
+      "selector": ".hamburger",
+      "value": ""
+    },
+    {
+      "action": "click",
+      "selector": ".sidebar-toggle",
+      "value": ""
+    },
+    {
+      "action": "click",
+      "selector": ".bell-button",
+      "value": ""
+    }
+  ]
+}

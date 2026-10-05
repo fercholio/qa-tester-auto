@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-10-05T18:39:49.990Z",
+  "context": {
+    "testPlanContent": "### Dashboard Accessibility and Theme Stress Test\n1. Navega a la URL indicada.\n2. Verifica que el botón de hamburguesa tiene atributo aria-label; si no, registra una falla de accesibilidad.\n3. Cambia el tema usando #theme-toggle 5 veces rápidamente y confirma que la UI no queda en estado inconsistente.\n4. Abre el selector .tenant-select y elige una opción válida; luego intenta seleccionar una opción que no exista mediante manipulación del DOM (ej. set value a 'invalid-tenant') y envía el formulario (si existiese) para validar manejo de valores inesperados.\n5. Haz clic en los botones .timer-btn (incluyendo el que tiene texto \"Detener\") sin texto/aria-label y verifica que no se lanza excepción JavaScript y que el foco se mueve de forma lógica.\n6. Utiliza herramientas de lector de pantalla simuladas para asegurar que los botones sin texto tengan un fallback accesible.\n7. Registra cualquier error de consola y captura pantalla del estado final.",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "click",
+      "selector": ".hamburger"
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle"
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle"
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle"
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle"
+    },
+    {
+      "action": "click",
+      "selector": "#theme-toggle"
+    },
+    {
+      "action": "click",
+      "selector": ".tenant-select"
+    },
+    {
+      "action": "click",
+      "selector": ".tenant-select"
+    },
+    {
+      "action": "click",
+      "selector": ".timer-btn"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-10-05T18:36:19.909Z",
+  "context": {
+    "testPlanContent": "### Toggle theme & verify persistence with inaccessible buttons\n1. **Abrir** la URL del Dashboard.\n2. **Confirmar** que el tema actual es claro (o oscuro) inspeccionando el atributo `data-theme` del `<body>`.\n3. **Hacer click** en el botón `#theme-toggle`.\n4. **Verificar** que el atributo `data-theme` cambie a su valor opuesto y que todos los elementos de la UI se actualicen.\n5. **Recargar** la página.\n6. **Comprobar** que el tema persiste después de la recarga.\n7. **Localizar** los botones con clase `.hamburger`, `.sidebar-toggle`, `.bell-button` y `.btn-logout` que carecen de `text` y `aria-label`.\n8. **Añadir** temporalmente atributos `aria-label` via DevTools y asegurar que la interacción (click) sigue funcionando sin errores en consola.\n9. **Intentar** hacer click en cada botón sin `aria-label` y **registrar** cualquier fallo de accesibilidad o comportamiento inesperado.\n10. **Cerrar** sesión con `.btn-logout` y validar que la sesión se termina correctamente.",
+    "startUrl": "http://localhost:3000/dashboard"
+  },
+  "stepsExecuted": [
+    {
+      "action": "click",
+      "selector": "#theme-toggle",
+      "value": null
+    },
+    {
+      "action": "click",
+      "selector": ".hamburger",
+      "value": null
+    },
+    {
+      "action": "click",
+      "selector": ".sidebar-toggle",
+      "value": null
+    },
+    {
+      "action": "click",
+      "selector": ".bell-button",
+      "value": null
+    },
+    {
+      "action": "click",
+      "selector": ".btn-logout",
+      "value": null
+    }
+  ]
+}
