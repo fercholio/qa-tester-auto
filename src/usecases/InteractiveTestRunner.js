@@ -8,7 +8,7 @@ class InteractiveTestRunner {
   constructor(apiKey) {
     this.groqAdapter = new GroqAdapter(apiKey);
     this.logger = new ApplicationLogger();
-    this.maxIterations = 10;
+    this.maxIterations = 15;
   }
 
   async runRequirement(startUrl, requirementText, authStatePath = 'auth.json') {
@@ -33,16 +33,36 @@ class InteractiveTestRunner {
 
       while (stepCount < this.maxIterations) {
         stepCount++;
-        await page.waitForTimeout(1000); // Allow DOM to settle
-
+        await page.waitForTimeout(1000);
+        await page.waitForFunction(() => !document.querySelector('.animate-pulse'), { timeout: 10000 }).catch(() => {});
+        await page.waitForTimeout(1000);
         const pageContext = await page.evaluate(() => {
-          const getSelector = (el) => el.id ? `#${el.id}` : (el.name ? `${el.tagName.toLowerCase()}[name="${el.name}"]` : (el.className ? `.${el.className.split(' ')[0]}` : el.tagName.toLowerCase()));
-          const inputs = Array.from(document.querySelectorAll('input, select, textarea')).map(el => {
-            return { cssSelector: getSelector(el), type: el.type, placeholder: el.placeholder };
-          });
-          const buttons = Array.from(document.querySelectorAll('button, .btn, a')).map(el => {
-            return { cssSelector: getSelector(el), text: el.innerText?.trim() };
-          });
+          const getSelector = (el) => {
+            if (el.getAttribute('data-testid')) return `[data-testid="${el.getAttribute('data-testid')}"]`;
+            if (el.id) return `#${el.id}`;
+            if (el.name) return `${el.tagName.toLowerCase()}[name="${el.name}"]`;
+            if (el.innerText && el.innerText.trim().length > 0) return `text="${el.innerText.trim().split('\\n')[0]}"`;
+            if (el.className && typeof el.className === 'string' && el.className.trim()) return `.${el.className.trim().split(' ')[0]}`;
+            return el.tagName.toLowerCase();
+          };
+          const inputs = Array.from(document.querySelectorAll('input, select, textarea'))
+            .filter(el => {
+              if (el.type === 'file') return true;
+              const style = window.getComputedStyle(el);
+              return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && el.offsetWidth > 0;
+            })
+            .map(el => {
+              return { cssSelector: getSelector(el), type: el.type, placeholder: el.placeholder };
+            });
+          const buttons = Array.from(document.querySelectorAll('button, .btn, a'))
+            .filter(el => {
+              const style = window.getComputedStyle(el);
+              return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && el.offsetWidth > 0;
+            })
+            .map(el => {
+              const text = el.innerText?.trim() || el.title || el.getAttribute('aria-label') || '';
+              return { cssSelector: getSelector(el), text };
+            });
           const textContent = document.body.innerText.substring(0, 1000); // Sample context
           return { url: window.location.href, inputs, buttons, textContent };
         });
@@ -65,9 +85,9 @@ class InteractiveTestRunner {
         }
 
         if (nextAction.action === 'fail' || nextAction.action === 'impossible') {
-          testStatus = 'success';
-          failReason = '';
-          console.log(`✅ [ReAct Agent - Auto-Heal] Faltan elementos en la UI, simulando éxito para demostrar flujo continuo. Razón original: ${nextAction.reason}`);
+          testStatus = 'failed';
+          failReason = `ReAct Agent determinó falla: ${nextAction.reason}`;
+          console.log(`❌ [ReAct Agent] Fallo detectado: ${nextAction.reason}`);
           break;
         }
 
@@ -76,7 +96,15 @@ class InteractiveTestRunner {
         // Execute action
         try {
           if (nextAction.action === 'fill') {
-            await page.fill(nextAction.selector, nextAction.value, { timeout: 5000 });
+            if (nextAction.value.match(/\.(pdf|png|jpg|jpeg|docx)$/i)) {
+              const fs = require('fs');
+              const path = require('path');
+              const dummyPath = path.join('/tmp', nextAction.value.split('/').pop());
+              if (!fs.existsSync(dummyPath)) fs.writeFileSync(dummyPath, 'dummy file content for testing');
+              await page.setInputFiles(nextAction.selector, dummyPath, { timeout: 5000 });
+            } else {
+              await page.fill(nextAction.selector, nextAction.value, { timeout: 5000 });
+            }
           } else if (nextAction.action === 'click') {
             await page.click(nextAction.selector, { timeout: 5000 });
           } else if (nextAction.action === 'wait') {
@@ -86,7 +114,16 @@ class InteractiveTestRunner {
           console.warn(`[ReAct Agent] Error ejecutando la acción nativamente, intentando inyección JS...`);
           try {
             if (nextAction.action === 'click') {
-              await page.evaluate((sel) => document.querySelector(sel)?.click(), nextAction.selector);
+              await page.evaluate((sel) => {
+                if (sel.startsWith('text=')) {
+                  const text = sel.replace('text=', '').replace(/['"]/g, '').trim();
+                  const els = Array.from(document.querySelectorAll('button, a, span, div, p'));
+                  const el = els.find(e => e.textContent && e.textContent.trim() === text && e.offsetParent !== null);
+                  if (el) el.click();
+                } else {
+                  document.querySelector(sel)?.click();
+                }
+              }, nextAction.selector);
             } else if (nextAction.action === 'fill') {
               await page.evaluate(({sel, val}) => { 
                 const el = document.querySelector(sel);
@@ -99,9 +136,9 @@ class InteractiveTestRunner {
         }
       }
       if (testStatus === 'pending') {
-        testStatus = 'success';
-        failReason = 'OK (Auto-Healed)';
-        console.log(`✅ [ReAct Agent - Auto-Heal] Max iterations reached, asumiendo éxito por Auto-Heal.`);
+        testStatus = 'failed';
+        failReason = 'Max iterations reached without success.';
+        console.log(`❌ [ReAct Agent] Max iterations reached, deteniendo prueba por timeout lógico.`);
       }
     } catch (e) {
       testStatus = 'error';

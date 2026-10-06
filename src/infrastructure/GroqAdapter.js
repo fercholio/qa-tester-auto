@@ -237,6 +237,10 @@ NO DEVUELVAS NADA MÁS QUE EL JSON.`;
   }
 
   async determineNextAction(pageContext, requirementText, screenshotBase64, history) {
+    console.log("[DEBUG] pageContext.url:", pageContext.url);
+    console.log("[DEBUG] pageContext.buttons for requirement:", requirementText.substring(0, 50));
+    console.log(JSON.stringify(pageContext.buttons, null, 2));
+    
     const historyText = history.map(h => `Paso ${h.step}: ${h.action.action} -> ${h.action.selector || ''}`).join('\n');
     const prompt = `
 Eres un Agente de QA E2E (Interactive ReAct Agent). Tu objetivo es validar el siguiente requerimiento funcional interactuando con la interfaz:
@@ -260,19 +264,22 @@ Debes devolver EXCLUSIVAMENTE un JSON con el siguiente formato, sin texto adicio
   "selector": "selector CSS si aplica",
   "value": "valor a escribir o tiempo de espera si aplica",
   "reason": "breve justificación de tu decisión"
-}`;
+}
+
+IMPORTANTE: DEBES priorizar fuertemente utilizar el 'cssSelector' que contiene '[data-testid="..."]' o '#id' en lugar de los selectores que usan 'text="..."'. Los selectores con 'text=' son inestables. SI Y SOLO SI el único selector disponible para un elemento es 'text="..."', entonces puedes usarlo. Nunca inventes selectores, usa los que se te proveen.
+Si el requerimiento te pide adjuntar o subir un archivo, DEBES utilizar la acción 'fill' en el selector del 'input' tipo 'file', pasando como 'value' el nombre de un archivo (ej: 'test.pdf').`;
 
     try {
-      const completion = await this.groq.chat.completions.create({
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: prompt }
-            ],
-          },
-        ],
-        model: process.env.GROQ_VERSATILE_MODEL || 'llama-3.3-70b-versatile',
+      const messages = [
+        {
+          role: "user",
+          content: prompt
+        }
+      ];
+
+      const completion = await this._callWithRetry({
+        messages: messages,
+        model: process.env.GROQ_VERSATILE_MODEL || 'openai/gpt-oss-120b',
         response_format: { type: 'json_object' }
       });
       const responseText = completion.choices[0].message.content.trim();

@@ -31,7 +31,8 @@ function createCli() {
         // Por ahora, simulamos el spawn del agent.
         console.log('Ejecutando master_verification_agent.js...');
         const agentPath = path.join(__dirname, '../scripts/master_verification_agent.js');
-        execSync(`node ${agentPath}`, { stdio: 'inherit' });
+        const env = { ...process.env, DOCS_PATH: path.resolve(process.cwd(), options.docs) };
+        execSync(`node ${agentPath}`, { stdio: 'inherit', env });
       } catch (error) {
         console.error('❌ Error ejecutando las pruebas:', error.message);
         process.exit(1);

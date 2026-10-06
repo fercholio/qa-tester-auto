@@ -12,40 +12,46 @@ class AuthManager {
       throw new Error('Invalid authentication configuration provided.');
     }
 
-    console.log(`[AuthManager] Logging in as ${this.config.user}...`);
-    const browser = await chromium.launch({ headless: true });
-    const context = await browser.newContext();
-    const page = await context.newPage();
-
     try {
-      await page.goto(this.config.loginUrl, { waitUntil: 'networkidle' });
+      // 1. Make direct API call via Node fetch (bypassing browser/CORS/Vue issues)
+      const apiUrl = 'http://127.0.0.1:8001/api/v1/auth/login';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: this.config.user, password: this.config.pass })
+      });
 
-      const userSel = this.config.userSel || 'input[type="email"], input[name*="user"], input[name*="email"]';
-      const passSel = this.config.passSel || 'input[type="password"]';
-      const submitSel = this.config.submitSel || 'button[type="submit"], form button, .btn-primary';
+      if (!response.ok) {
+        throw new Error(`API Auth failed with status ${response.status}`);
+      }
 
-      await page.fill(userSel, this.config.user);
-      await page.fill(passSel, this.config.pass);
-      
-      // Submit and wait for redirect
-      await Promise.all([
-        page.waitForNavigation({ waitUntil: 'networkidle', timeout: 10000 }).catch(() => {}), // catch timeout if it's an SPA without full reload
-        page.click(submitSel)
-      ]);
+      const parsed = await response.json();
+      if (!parsed.data || !parsed.data.token) {
+        throw new Error('API Auth failed: No token returned');
+      }
 
-      // Extra wait for SPA routing/token setting
-      await page.waitForTimeout(3000); 
+      // 2. Build Playwright storage state manually
+      const storageState = {
+        cookies: [],
+        origins: [
+          {
+            origin: "http://localhost:3001",
+            localStorage: [
+              { name: "abogalia_token", value: parsed.data.token },
+              { name: "abogalia_user", value: JSON.stringify(parsed.data.user) },
+              { name: "abogalia_session_v", value: "2" }
+            ]
+          }
+        ]
+      };
 
-      // Save state
-      await context.storageState({ path: this.stateFilePath });
+      fs.writeFileSync(this.stateFilePath, JSON.stringify(storageState, null, 2));
       console.log(`[AuthManager] Session saved successfully to ${this.stateFilePath}`);
       
       return this.stateFilePath;
     } catch (error) {
       console.error(`[AuthManager] Error during authentication: ${error.message}`);
       throw error;
-    } finally {
-      await browser.close();
     }
   }
 
