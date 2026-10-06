@@ -73,7 +73,19 @@ function extractRequirements() {
        }
     }
   });
-  return requirements;
+
+  let finalReqs = requirements;
+  if (process.env.START_FROM_ID) {
+    const startIndex = finalReqs.findIndex(r => r.id === process.env.START_FROM_ID);
+    if (startIndex !== -1) {
+      finalReqs = finalReqs.slice(startIndex);
+      console.log(`\n⏭️ Retomando pruebas desde: ${process.env.START_FROM_ID}\n`);
+    } else {
+      console.warn(`\n⚠️ No se encontró el ID ${process.env.START_FROM_ID}. Iniciando desde el principio.\n`);
+    }
+  }
+
+  return finalReqs;
 }
 
 async function runMasterVerification() {
