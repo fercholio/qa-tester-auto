@@ -82,3 +82,27 @@ Si el agente no puede continuar debido a que una API falla o un mock no está pr
 El **QA Surface Tester** no es solo una herramienta, es un *framework de calidad cognitiva*. Transforma los requerimientos de negocio (`QA_master.md`) directamente en validaciones técnicas iterativas sin escribir código intermedio por cada prueba.
 
 Al adoptar esta arquitectura, el equipo reduce a cero el mantenimiento de suites *End-to-End* frágiles, asegurando entregas continuas (*Continuous Delivery*) ágiles y a prueba de regresiones visuales o de experiencia de usuario.
+
+---
+
+## 5. Prompt de Despliegue (Agent-to-Agent Handoff)
+
+Si deseas que otro agente de IA (como un Claude, GPT-4 o Gemini) construya o replique esta arquitectura base en un nuevo proyecto o sistema, puedes proporcionarle el siguiente "Meta-Prompt". Este texto contiene la esencia técnica necesaria para inicializar el framework:
+
+```text
+Actúa como un Arquitecto de Software y Especialista en QA Automatizado. Tu objetivo es construir un "QA Surface Tester" autónomo desde cero utilizando Node.js, Playwright y un modelo de lenguaje (LLM) rápido (como Groq, OpenAI o Claude). 
+
+Deberás implementar un sistema que siga el paradigma ReAct (Reasoning + Acting) para testear una interfaz web. Los requisitos fundamentales que debes programar son:
+
+1. ORQUESTADOR (Playwright): Un script maestro en Node.js que levante Chromium, inicie sesión o asuma un "Rol" y reciba una misión o "Requerimiento Funcional" en lenguaje natural.
+2. EXTRACTOR DE CONTEXTO: Una función inyectada en el navegador (`page.evaluate`) que raspe el DOM en busca de elementos interactivos (a, button, input, select, .btn, [role="button"]) y extraiga su texto, placeholders y un selector CSS único. No devuelvas todo el HTML, solo la matriz de elementos útiles.
+3. CICLO ReAct (Bucle Principal): 
+   - Toma el arreglo de elementos extraídos.
+   - Envíaselos al LLM junto con el objetivo y el historial de acciones recientes.
+   - El LLM debe responder obligatoriamente con un JSON estructurado con el formato: { "action": "click|fill|verify|stop", "selector": "el_selector_css", "value": "texto_a_escribir", "reasoning": "Por qué tomo esta decisión" }.
+   - Ejecuta la acción en Playwright (ej. `page.click(selector)`).
+   - Repite el ciclo hasta que el LLM devuelva la acción "stop" indicando éxito o fracaso irremediable.
+4. RESILIENCIA: Implementa capturas de pantalla automáticas (screenshots) en cada paso para un reporte final.
+
+Crea los archivos iniciales, el package.json con las dependencias necesarias y el script principal de ejecución para tener un prototipo funcional.
+```
