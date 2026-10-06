@@ -1,8 +1,9 @@
-#!/usr/bin/env node
+#!/usr/env/node
 
 const { Command } = require('commander');
 const path = require('path');
-const { execSync } = require('child_process');
+const MasterVerificationUseCase = require('../src/usecases/MasterVerificationUseCase');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 function createCli() {
   const program = new Command();
@@ -16,23 +17,19 @@ function createCli() {
     .command('run')
     .description('Ejecuta la suite de pruebas autónoma')
     .option('-m, --modules <modules>', 'Ejecutar pruebas solo en los módulos especificados (separados por coma)')
-    .option('--docs <path>', 'Ruta al archivo Markdown de requerimientos', './docs/tempus_v2/func_requirements_v2.md')
+    .option('--docs <path>', 'Ruta al archivo Markdown de requerimientos')
     .option('--headless <boolean>', 'Correr el navegador en modo headless', true)
-    .action((options) => {
+    .action(async (options) => {
       console.log('🚀 Iniciando QA Surface Tester Enterprise...');
-      if (options.modules) {
-        console.log(`📌 Filtrando por módulos: ${options.modules}`);
-      }
-      console.log(`📄 Leyendo requerimientos de: ${options.docs}`);
       
-      // Aquí podemos spawnear el script maestro o llamarlo directamente
+      if (options.docs) {
+        process.env.DOCS_PATH = path.resolve(process.cwd(), options.docs);
+        console.log(`📄 Leyendo requerimientos de: ${process.env.DOCS_PATH}`);
+      }
+      
       try {
-        // En una implementación final, importaríamos runMasterVerification y le pasaríamos opciones.
-        // Por ahora, simulamos el spawn del agent.
-        console.log('Ejecutando master_verification_agent.js...');
-        const agentPath = path.join(__dirname, '../scripts/master_verification_agent.js');
-        const env = { ...process.env, DOCS_PATH: path.resolve(process.cwd(), options.docs) };
-        execSync(`node ${agentPath}`, { stdio: 'inherit', env });
+        const usecase = new MasterVerificationUseCase(process.env.GROQ_API_KEY);
+        await usecase.execute();
       } catch (error) {
         console.error('❌ Error ejecutando las pruebas:', error.message);
         process.exit(1);
