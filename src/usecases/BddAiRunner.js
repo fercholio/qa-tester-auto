@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
 const Groq = require('groq-sdk');
 const fs = require('fs');
+const path = require('path');
 
 class BddAiRunner {
   constructor(apiKey, socket) {
@@ -13,26 +14,38 @@ class BddAiRunner {
     const lines = content.split('\n');
     const scenarios = [];
     let currentScenario = null;
+    let featureTitle = path.basename(featurePath, '.feature');
+    let featureDescription = '';
     
     for (const line of lines) {
       const trimmed = line.trim();
-      if (trimmed.startsWith('Scenario:')) {
+      if (!trimmed || trimmed.startsWith('#')) continue;
+
+      if (trimmed.startsWith('Feature:')) {
+        featureTitle = trimmed.replace('Feature:', '').trim();
+      } else if (trimmed.startsWith('Scenario:')) {
         if (currentScenario) scenarios.push(currentScenario);
         currentScenario = { title: trimmed.replace('Scenario:', '').trim(), steps: [] };
       } else if (currentScenario && (trimmed.startsWith('Given ') || trimmed.startsWith('When ') || trimmed.startsWith('And ') || trimmed.startsWith('Then ') || trimmed.startsWith('But '))) {
         currentScenario.steps.push(trimmed);
+      } else if (!currentScenario) {
+        featureDescription += (featureDescription ? ' ' : '') + trimmed;
       }
     }
     if (currentScenario) scenarios.push(currentScenario);
-    return scenarios;
+    return { title: featureTitle, description: featureDescription, scenarios };
   }
 
   async runFeature(featurePath, startUrl, authConfig) {
     this.socket.emit('log', { type: 'info', message: `🔍 Cargando Feature Spec: ${featurePath}` });
-    const scenarios = await this.parseFeature(featurePath);
+    const { title: featureTitle, description: featureDescription, scenarios } = await this.parseFeature(featurePath);
     let allPassed = true;
+    const featureStartTime = Date.now();
 
     for (const scenario of scenarios) {
+      scenario.startTime = Date.now();
+      scenario.stepResults = [];
+      scenario.passed = true;
       this.socket.emit('log', { type: 'info', message: `▶️ Ejecutando Escenario: ${scenario.title}` });
 
       let storageStatePath = undefined;
@@ -68,6 +81,9 @@ class BddAiRunner {
 
         for (let i = 0; i < scenario.steps.length; i++) {
           const step = scenario.steps[i];
+          const stepStart = Date.now();
+          const stepDecisions = [];
+          const stepErrors = [];
           this.socket.emit('log', { type: 'warning', message: `Ejecutando paso: ${step}` });
           
           let stepCompleted = false;
@@ -79,6 +95,7 @@ class BddAiRunner {
             const domState = await this.extractDom(page);
             const result = await this.executeStepWithAI(step, domState, page.url(), contextDocs, actionHistory);
             console.log('🤖 AI Decision:', result);
+            stepDecisions.push({ ...result });
             actionHistory.push(result);
             
             if (result.action === 'done') {
@@ -88,11 +105,18 @@ class BddAiRunner {
 
             try {
               if (result.action === 'goto') {
-                await page.goto(result.value);
-                await page.waitForLoadState('networkidle');
+                let targetUrl = result.value || (result.selector && (result.selector.startsWith('http') || result.selector.startsWith('/')) ? result.selector : null);
+                if (targetUrl) {
+                  if (targetUrl.startsWith('/')) {
+                    targetUrl = `http://localhost:3000${targetUrl}`;
+                  }
+                  await page.goto(targetUrl);
+                  await page.waitForLoadState('networkidle');
+                }
               } else if (result.action === 'click') {
                 await page.click(result.selector, { timeout: 5000 });
-                await page.waitForTimeout(1000);
+                await page.waitForTimeout(600);
+                await page.waitForLoadState('domcontentloaded').catch(() => {});
               } else if (result.action === 'fill') {
                 await page.fill(result.selector, result.value, { timeout: 5000 });
               } else if (result.action === 'select') {
@@ -101,22 +125,36 @@ class BddAiRunner {
                 });
                 await page.waitForTimeout(500);
               } else if (result.action === 'verify') {
-                const verifyValue = result.value || result.selector.replace('text=', '').replace(/['"]/g, '');
-                let html = await page.content();
+                let isMatch = false;
                 let verifyAttempts = 0;
                 while (verifyAttempts < 10) {
-                  if (result.expected === 'exists' && html.includes(verifyValue)) break;
-                  if (result.expected === 'not_exists' && !html.includes(verifyValue)) break;
+                  const html = await page.content();
+                  
+                  // Check selector via Playwright locator first
+                  if (result.selector) {
+                    try {
+                      const count = await page.locator(result.selector).count();
+                      if (result.expected === 'exists' && count > 0) { isMatch = true; break; }
+                      if (result.expected === 'not_exists' && count === 0) { isMatch = true; break; }
+                    } catch (_) {}
+                  }
+
+                  // Check cleaned text from value or selector against HTML
+                  const rawVal = result.value || result.selector || '';
+                  const cleanText = rawVal.replace(/^text=/, '').replace(/^["']|["']$/g, '').trim();
+                  
+                  if (cleanText) {
+                    const hasCleanText = html.includes(cleanText);
+                    if (result.expected === 'exists' && hasCleanText) { isMatch = true; break; }
+                    if (result.expected === 'not_exists' && !hasCleanText) { isMatch = true; break; }
+                  }
+                  
                   await page.waitForTimeout(500);
-                  html = await page.content();
                   verifyAttempts++;
                 }
                 
-                if (!html.includes(verifyValue) && result.expected === 'exists') {
-                  throw new Error(`Verificación fallida: No se encontró "${verifyValue}"`);
-                }
-                if (html.includes(verifyValue) && result.expected === 'not_exists') {
-                  throw new Error(`Verificación fallida: Se encontró "${verifyValue}" pero no debía existir`);
+                if (!isMatch) {
+                  throw new Error(`Verificación fallida: No se cumplió "${result.selector || result.value}"`);
                 }
                 stepCompleted = true;
                 break;
@@ -129,19 +167,47 @@ class BddAiRunner {
               }
             } catch (error) {
               console.log(`[AI Auto-Repair] Error ejecutando acción: ${error.message}`);
+              stepErrors.push(error.message);
               actionHistory.push({ failed_action: result, error: error.message, hint: "Intenta un selector diferente, busca por placeholder, id, o un texto alternativo visible." });
             }
           }
+
+          const stepDuration = Date.now() - stepStart;
+          const stepStatus = stepCompleted ? (attempts > 1 ? 'self_healed' : 'passed') : 'failed';
+          
+          scenario.stepResults.push({
+            step,
+            status: stepStatus,
+            attempts,
+            duration: stepDuration,
+            decisions: stepDecisions,
+            errors: stepErrors
+          });
 
           if (!stepCompleted) throw new Error("Excedido límite de reintentos en paso.");
           this.socket.emit('log', { type: 'success', message: `✅ Paso completado: ${step}` });
         }
 
-        await page.screenshot({ path: `success-screenshot-${Date.now()}.png` });
+        const screenshotName = `screenshot-${Date.now()}.png`;
+        const screenshotDir = path.join(process.cwd(), 'public', 'screenshots');
+        fs.mkdirSync(screenshotDir, { recursive: true });
+        const screenshotPath = path.join(screenshotDir, screenshotName);
+        await page.screenshot({ path: screenshotPath });
+        scenario.screenshot = `screenshots/${screenshotName}`;
+        scenario.duration = Date.now() - scenario.startTime;
+        scenario.passed = true;
       } catch (e) {
         this.socket.emit('log', { type: 'error', message: `❌ Fallo en el escenario: ${e.message}` });
         allPassed = false;
-        await page.screenshot({ path: `error-screenshot-${Date.now()}.png` }).catch(() => {});
+        scenario.passed = false;
+        scenario.error = e.message;
+        scenario.duration = Date.now() - scenario.startTime;
+        const errScreenshotName = `error-${Date.now()}.png`;
+        const screenshotDir = path.join(process.cwd(), 'public', 'screenshots');
+        fs.mkdirSync(screenshotDir, { recursive: true });
+        const screenshotPath = path.join(screenshotDir, errScreenshotName);
+        await page.screenshot({ path: screenshotPath }).catch(() => {});
+        scenario.screenshot = `screenshots/${errScreenshotName}`;
       } finally {
         if (pageErrors.length > 0) {
           this.socket.emit('log', { type: 'error', message: `⚠️ Se capturaron ${pageErrors.length} errores de consola/página en este escenario.` });
@@ -151,44 +217,66 @@ class BddAiRunner {
       }
     }
     
-    return { passed: allPassed, scenarios };
+    return {
+      title: featureTitle,
+      description: featureDescription,
+      path: featurePath,
+      file: path.basename(featurePath),
+      passed: allPassed,
+      duration: Date.now() - featureStartTime,
+      scenarios
+    };
   }
 
   async extractDom(page) {
     return await page.evaluate(() => {
-      const elements = Array.from(document.querySelectorAll('button, a, input, select, [role="button"], [role="tab"]'));
-      return elements.map(el => ({
-        tag: el.tagName,
-        text: el.innerText || el.placeholder || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '',
-        id: el.id,
-        cssClass: el.className
-      })).filter(el => el.text || el.id);
+      const elements = Array.from(document.querySelectorAll('button, a, input, select, textarea, [role="button"], [role="tab"]'));
+      return elements.map(el => {
+        const text = (el.innerText || el.placeholder || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '').trim();
+        return {
+          tag: el.tagName.toLowerCase(),
+          text: text ? text.substring(0, 80) : undefined,
+          id: el.id || undefined,
+          name: el.getAttribute('name') || undefined,
+          placeholder: el.getAttribute('placeholder') || undefined,
+          type: el.getAttribute('type') || undefined,
+          href: el.getAttribute('href') || undefined
+        };
+      }).filter(el => el.text || el.id || el.name || el.placeholder || el.href);
     });
   }
 
   async executeStepWithAI(stepDescription, domState, currentUrl, contextDocs = '', actionHistory = []) {
     const prompt = `
-Eres un agente de Playwright BDD (Spec-Driven Testing). 
-Tu objetivo es traducir un paso BDD en una acción de Playwright, basándote ÚNICAMENTE en los elementos de la interfaz actuales.
+Eres un agente autónomo de Playwright BDD (Spec-Driven Testing). 
+Tu objetivo es traducir un paso BDD en una acción de Playwright, basándote en los elementos interactivos actuales.
 ${contextDocs}
 
 Paso BDD a ejecutar: "${stepDescription}"
 URL actual: ${currentUrl}
 
-Historial de acciones YA EJECUTADAS para este paso (No las repitas):
+Reglas estrictas de decisión:
+1. Si el paso dice "click", "hacer clic", o "clic en", la acción DEBE ser "click". Elige el selector más directo (id ej: "#btn-new-entry", text ej: "text=Crear", o selector CSS).
+2. Si el paso dice "fill", "escribir", o "ingresar", la acción DEBE ser "fill". Busca el input por id (ej: "#entry-description"), name, placeholder o label asociado.
+3. Si el paso dice "select", "seleccionar", la acción DEBE ser "select".
+4. Si el paso dice "verify", "should see", "should exist", "debería ver", "debería existir", la acción DEBE ser "verify" con expected: "exists".
+5. Si el paso dice "should not see", "should not exist", "no debería ver", la acción DEBE ser "verify" con expected: "not_exists".
+6. Si la acción ya se ejecutó con éxito o el objetivo del paso ya está cumplido, devuelve "action": "done".
+7. NUNCA respondas "action": "verify" si el paso BDD explícitamente pide hacer "click" o "fill".
+
+Historial de acciones YA EJECUTADAS para este paso (NO las repitas si fallaron):
 ${JSON.stringify(actionHistory, null, 2)}
 
 Elementos interactivos en pantalla:
 ${JSON.stringify(domState, null, 2)}
 
-Devuelve SOLO un JSON con este formato (nada de texto adicional):
+Devuelve SOLO un JSON con este formato exacto:
 {
   "action": "click" | "fill" | "select" | "verify" | "goto" | "done",
-  "selector": "selector valido de Playwright. Si hay múltiples botones con el mismo texto, usa el motor de texto con pseudo-clase estricta, ej: text=Gestionar >> nth=0",
-  "value": "valor a escribir, opción a seleccionar (label o value), URL para goto, o verificar",
+  "selector": "selector valido de Playwright (ej: #id, text=Nombre, input[name='x'])",
+  "value": "valor a escribir, opción a seleccionar, o texto/selector a verificar",
   "expected": "exists" | "not_exists" (solo si action es verify)
 }
-IMPORTANTE: Si consideras que el paso ya fue completado con las acciones previas o ya estás en el estado correcto, devuelve "action": "done".
 `;
 
     const chatCompletion = await this.groq.chat.completions.create({

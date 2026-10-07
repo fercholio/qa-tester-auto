@@ -10,11 +10,9 @@ Feature: Usuario / Empleado
     Then I should be redirected to the dashboard
     And I click "Entradas"
     When I click "Nueva Entrada"
-    And I fill "project_name" with "Defensa Civil"
-    And I fill "task_name" with "Revision de Expediente"
-    And I fill "duration" with "02:00"
-    And I click "Guardar Registro"
-    Then the time entry should exist in the table
+    And I fill "description" with "Revision de Expediente"
+    And I click "Crear"
+    Then I should see the time entry "Revision de Expediente"
 
   Scenario: RF-3.3 Actualizacion de Perfil Restringido
     Given I am logged in as a Super Admin
