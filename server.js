@@ -7,6 +7,7 @@ const AiTestRunner = require('./src/usecases/AiTestRunner');
 const AiPlanGenerator = require('./src/usecases/AiPlanGenerator');
 const AiChaosRunner = require('./src/usecases/AiChaosRunner');
 const UnitTestGenerator = require('./src/usecases/UnitTestGenerator');
+const BddAiRunner = require('./src/usecases/BddAiRunner');
 
 const app = express();
 const server = http.createServer(app);
@@ -122,6 +123,18 @@ io.on('connection', (socket) => {
     } catch (error) {
       socket.emit('log', { type: 'error', message: `Error en Unit Test Gen: ${error.message}` });
       socket.emit('unit_test_error');
+    }
+  });
+
+  socket.on('start_bdd_test', async (config) => {
+    socket.emit('log', { type: 'info', message: 'Iniciando BDD Spec Runner...' });
+    try {
+      const runner = new BddAiRunner(config.apiKey, socket);
+      const passed = await runner.runScenario(config.featurePath, config.startUrl, config.auth);
+      socket.emit('bdd_test_finished', passed);
+    } catch (error) {
+      socket.emit('log', { type: 'error', message: `Error en BDD Runner: ${error.message}` });
+      socket.emit('bdd_test_finished', false);
     }
   });
 

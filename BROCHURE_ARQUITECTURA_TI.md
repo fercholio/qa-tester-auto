@@ -106,3 +106,8 @@ Deberás implementar un sistema que siga el paradigma ReAct (Reasoning + Acting)
 
 Crea los archivos iniciales, el package.json con las dependencias necesarias y el script principal de ejecución para tener un prototipo funcional.
 ```
+
+### Capacidad de Auto-Reparación y Caché de Sesiones (AI Auto-Repair)
+Para eficientar el consumo de tokens y maximizar la robustez del testing:
+1. **Reutilización de Contexto de Autenticación:** Se implementó una lógica de `storageState` en Playwright. Cuando un escenario inicia sesión exitosamente, se guarda el archivo `auth_{Rol}.json`. Si futuros escenarios requieren el mismo rol, el `BddAiRunner` inyecta la cookie de sesión de inmediato, omitiendo el renderizado del formulario de inicio de sesión y saltando directamente al estado de completado.
+2. **Auto-Reparación de Selectores (Self-Healing):** En lugar de fallar inmediatamente ante un cambio de DOM (e.g., *Timeout* al hacer click en un botón que cambió de texto), el motor captura la excepción e inserta un registro en el historial de acciones (`actionHistory.push({ error: ... })`). Esto permite al modelo iterar dinámicamente y probar un selector secundario (placeholder, nth-child, etc.) en tiempo real, garantizando la continuidad de la prueba.

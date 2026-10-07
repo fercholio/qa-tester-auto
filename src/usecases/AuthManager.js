@@ -14,11 +14,11 @@ class AuthManager {
 
     try {
       // 1. Make direct API call via Node fetch (bypassing browser/CORS/Vue issues)
-      const apiUrl = 'http://127.0.0.1:8001/api/v1/auth/login';
+      const apiUrl = this.config.loginUrl || 'http://127.0.0.1:8001/api/v1/auth/login';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email: this.config.user, password: this.config.pass })
+        body: JSON.stringify({ email: this.config.user, password: this.config.pass, device_name: "cli" })
       });
 
       if (!response.ok) {
@@ -31,16 +31,25 @@ class AuthManager {
       }
 
       // 2. Build Playwright storage state manually
+      const targetUrl = this.config.targetUrl || "http://localhost:3001";
+      const localStorageData = (this.config.localStorageKeys || [
+        { name: "abogalia_token", valuePath: "token" },
+        { name: "abogalia_user", valuePath: "user" },
+        { name: "abogalia_session_v", value: "2" }
+      ]).map(keyDef => {
+        let val = keyDef.value;
+        if (keyDef.valuePath === 'token') val = parsed.data.token;
+        else if (keyDef.valuePath === 'user') val = JSON.stringify(parsed.data.user);
+        else if (keyDef.valuePath === 'tenant_id') val = parsed.data.user.tenant_id?.toString() || '1';
+        return { name: keyDef.name, value: val };
+      });
+
       const storageState = {
         cookies: [],
         origins: [
           {
-            origin: "http://localhost:3001",
-            localStorage: [
-              { name: "abogalia_token", value: parsed.data.token },
-              { name: "abogalia_user", value: JSON.stringify(parsed.data.user) },
-              { name: "abogalia_session_v", value: "2" }
-            ]
+            origin: targetUrl,
+            localStorage: localStorageData
           }
         ]
       };

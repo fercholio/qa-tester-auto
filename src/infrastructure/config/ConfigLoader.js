@@ -14,7 +14,12 @@ class ConfigLoader {
       reportTitle: "Master Verification Report",
       reportPath: "public/report.html",
       docsPath: process.env.DOCS_PATH || '../../abogalia/docs/QA_master.md',
-      startFromId: process.env.START_FROM_ID || null
+      startFromId: process.env.START_FROM_ID || null,
+      localStorageKeys: [
+        { name: "abogalia_token", valuePath: "token" },
+        { name: "abogalia_user", valuePath: "user" },
+        { name: "abogalia_session_v", value: "2" }
+      ]
     };
 
     if (process.env.QA_CONFIG_PATH && fs.existsSync(process.env.QA_CONFIG_PATH)) {

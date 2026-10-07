@@ -30,6 +30,7 @@ class InteractiveTestRunner {
 
     try {
       await page.goto(startUrl, { waitUntil: 'networkidle' });
+      await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; animation: none !important; }' });
 
       while (stepCount < this.maxIterations) {
         stepCount++;

@@ -53,3 +53,28 @@ START_FROM_ID=RF-ABO-WEB-05 node bin/qa-tester.js run --docs /ruta/absoluta/a/tu
 
 ## Reportes
 Los reportes HTML generados y capturas probatorias (pantallazos) al finalizar la prueba se depositan en el directorio `/public`.
+
+## Nuevo Enfoque: Behavior-Driven Development (BDD)
+
+Además de la ejecución a través de documentos markdown interactivos (`QA_master.md`), el QA Surface Tester ahora soporta de forma nativa un motor de Behavior-Driven Development (BDD) que asimila escenarios escritos en Gherkin (archivos `.feature`).
+
+Este enfoque le permite a QA, Desarrolladores y Analistas de Negocio definir el comportamiento esperado del software de manera declarativa. El motor BDD impulsado por IA parsea los archivos `.feature`, extrae las instrucciones y las delega al agente LLM para traducirlas a selectores y acciones de Playwright de forma autónoma.
+
+### Configuración e Integración BDD
+
+1. **Ubicación de archivos:** Escribe tus Requerimientos Funcionales en archivos `.feature` dentro del directorio `bdd/features/` (ej. `rf-1.1.feature`).
+2. **Sintaxis Gherkin:** Utiliza la sintaxis estandarizada de Gherkin (`Feature`, `Scenario`, `Given`, `When`, `Then`).
+3. **Ejecución Síncrona Completa:**
+   Para procesar **todos** los escenarios BDD de todos los roles, extraer capturas de éxito/error por cada paso y generar un reporte `report.xml` compatible con metodologías CI/CD (JUnit), usa el runner oficial:
+   
+   ```bash
+   node run_all_rf.js
+   ```
+
+Este comando:
+- Iterará de manera síncrona sobre cada archivo en `bdd/features/*.feature`.
+- Aislará cada contexto e inyectará los prompts al modelo LLM.
+- Producirá la evidencia fotográfica (`success-screenshot-*.png` o `error-screenshot-*.png`).
+- Compilará todo en un archivo `report.xml` (JUnit) listando qué RFs pasaron y cuáles fallaron.
+
+Este flujo permite validar exhaustivamente todos los roles (Super Admin, Tenant Admin, Employee) con barreras de aislamiento multi-tenant y controles granulares.

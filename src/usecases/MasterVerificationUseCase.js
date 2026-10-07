@@ -42,6 +42,8 @@ class MasterVerificationUseCase {
       
       const authManager = new AuthManager({
         loginUrl: config.loginUrl,
+        targetUrl: config.targetUrl,
+        localStorageKeys: config.localStorageKeys,
         user: role.email,
         pass: role.pass
       });

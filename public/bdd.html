@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>QA Surface Tester - BDD Spec-Driven Testing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>QA Surface Tester - 🧪 BDD Spec-Driven</h1>
+      <p>Comparación en tiempo real: BDD/Spec-Driven vs Zero-Shot ReAct Agent</p>
+      <nav>
+        <a href="index.html" class="nav-link">← Volver al Tester Tradicional</a>
+      </nav>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel left-panel">
+        <h2>1. Seleccionar Feature Spec</h2>
+        <div class="control-group">
+          <label>Feature File (.feature):</label>
+          <input type="text" id="featurePath" value="bdd/features/rf-1.4.feature" />
+        </div>
+        <div class="control-group">
+          <label>Groq API Key:</label>
+          <input type="password" id="apiKey" placeholder="gsk_..." />
+        </div>
+        <button id="btnRunBdd" class="primary-btn">▶️ Ejecutar BDD Spec</button>
+        
+        <div style="margin-top:20px; font-size:14px; color:#555;">
+          <h3>Spec Actual (Vista Previa)</h3>
+          <pre style="background:#f4f4f4; padding:10px; border-radius:5px;">
+Feature: RF-1.4 Logical Isolation
+  As a Super Admin
+  I want to verify that tenant data is isolated
+
+  Scenario: Create a user in one tenant and verify it does not exist in another
+    Given I am logged in as a Super Admin
+    When I navigate to the platform dashboard
+    And I switch to tenant "Tenant A"
+    And I go to the Users module
+    And I create a new user with email "test-iso@empresa.com"
+    Then the user "test-iso@empresa.com" should exist in the table
+    When I return to the platform dashboard
+    And I switch to tenant "Tenant B"
+    And I go to the Users module
+    Then the user "test-iso@empresa.com" should NOT exist in the table
+          </pre>
+        </div>
+      </section>
+
+      <section class="panel right-panel">
+        <h2>Consola de Ejecución BDD</h2>
+        <div id="logConsole" class="terminal"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const btnRun = document.getElementById('btnRunBdd');
+    const logConsole = document.getElementById('logConsole');
+
+    function addLog(message, type) {
+      const el = document.createElement('div');
+      el.className = `log-line log-${type}`;
+      el.textContent = `[BDD Agent] ${message}`;
+      logConsole.appendChild(el);
+      logConsole.scrollTop = logConsole.scrollHeight;
+    }
+
+    socket.on('log', (data) => addLog(data.message, data.type));
+
+    btnRun.addEventListener('click', () => {
+      const apiKey = document.getElementById('apiKey').value;
+      const featurePath = document.getElementById('featurePath').value;
+
+      if (!apiKey) {
+        alert("Necesitas ingresar tu API Key de Groq");
+        return;
+      }
+      logConsole.innerHTML = '';
+      addLog("Iniciando BDD Spec Runner...", "info");
+      
+      socket.emit('start_bdd_test', {
+        apiKey,
+        featurePath,
+        startUrl: 'http://localhost:3000/platform',
+        auth: {
+          loginUrl: 'http://localhost:3000/login',
+          email: 'super@demo.com', // Using a real user or a known super admin
+          password: 'password'
+        }
+      });
+    });
+
+    socket.on('bdd_test_finished', (result) => {
+      addLog(result ? '✅ Escenario Completado con Éxito' : '❌ Escenario Fallido', result ? 'success' : 'error');
+    });
+  </script>
+</body>
+</html>
