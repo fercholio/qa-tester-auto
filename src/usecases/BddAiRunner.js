@@ -133,18 +133,26 @@ class BddAiRunner {
                   // Check selector via Playwright locator first
                   if (result.selector) {
                     try {
-                      const count = await page.locator(result.selector).count();
+                      let sel = result.selector.trim();
+                      let count = 0;
+                      if (sel.startsWith('role=')) {
+                        const roleName = sel.replace('role=', '').trim();
+                        count = await page.getByRole(roleName).count();
+                      } else {
+                        if (sel.startsWith('css=')) sel = sel.replace('css=', '').trim();
+                        count = await page.locator(sel).count();
+                      }
                       if (result.expected === 'exists' && count > 0) { isMatch = true; break; }
                       if (result.expected === 'not_exists' && count === 0) { isMatch = true; break; }
                     } catch (_) {}
                   }
 
-                  // Check cleaned text from value or selector against HTML
+                  // Check cleaned text from value or selector against HTML (case-insensitive)
                   const rawVal = result.value || result.selector || '';
                   const cleanText = rawVal.replace(/^text=/, '').replace(/^["']|["']$/g, '').trim();
                   
                   if (cleanText) {
-                    const hasCleanText = html.includes(cleanText);
+                    const hasCleanText = html.toLowerCase().includes(cleanText.toLowerCase());
                     if (result.expected === 'exists' && hasCleanText) { isMatch = true; break; }
                     if (result.expected === 'not_exists' && !hasCleanText) { isMatch = true; break; }
                   }

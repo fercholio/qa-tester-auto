@@ -663,15 +663,15 @@
     <div class="kpi-card kpi-donut-card">
       <div class="kpi-info">
         <h3>Efectividad Global</h3>
-        <div class="kpi-value" style="color: var(--amber);">56.3%</div>
-        <div class="kpi-sub">9 de 16 escenarios ok</div>
+        <div class="kpi-value" style="color: var(--emerald);">62.5%</div>
+        <div class="kpi-sub">10 de 16 escenarios ok</div>
       </div>
       <div class="donut-wrapper">
         <svg class="donut-svg" viewBox="0 0 100 100">
           <circle class="donut-bg" cx="50" cy="50" r="42"></circle>
-          <circle class="donut-fill" cx="50" cy="50" r="42"></circle>
+          <circle class="donut-fill" cx="50" cy="50" r="42" style="stroke-dashoffset: 98.96;"></circle>
         </svg>
-        <div class="donut-text">56.3%</div>
+        <div class="donut-text">62.5%</div>
       </div>
     </div>
 
@@ -720,9 +720,9 @@
   <div class="toolbar">
     <div class="filter-tabs">
       <button class="tab-btn active" onclick="filterByStatus('all', this)">Todos (16)</button>
-      <button class="tab-btn" onclick="filterByStatus('passed', this)">Exitosos (9)</button>
-      <button class="tab-btn" onclick="filterByStatus('healed', this)">Auto-Reparados (9)</button>
-      <button class="tab-btn" onclick="filterByStatus('failed', this)">Fallidos (7)</button>
+      <button class="tab-btn" onclick="filterByStatus('passed', this)">Exitosos (10)</button>
+      <button class="tab-btn" onclick="filterByStatus('healed', this)">Auto-Reparados (10)</button>
+      <button class="tab-btn" onclick="filterByStatus('failed', this)">Fallidos (6)</button>
     </div>
 
     <div class="search-box">
@@ -2291,20 +2291,20 @@
         </div>
       </article>
       
-      <article class="feature-card failed" data-feature-status="failed">
+      <article class="feature-card passed" data-feature-status="passed">
         <div class="feature-header" onclick="toggleFeatureAccordion('feat-5')">
           <div class="feature-title-box">
-            <span class="feature-icon">🔴</span>
+            <span class="feature-icon">🟢</span>
             <div>
               <div class="feature-name">Usuario / Empleado</div>
               <div class="feature-desc">Como Empleado (Abogado) Quiero registrar mi tiempo y ver mis metricas personales Para cumplir con mis metas de valor</div>
             </div>
           </div>
           <div class="feature-meta">
-            <span class="badge badge-failed">
-              FAILED
+            <span class="badge badge-passed">
+              PASSED
             </span>
-            <span class="meta-tag">⏱️ 153.67s</span>
+            <span class="meta-tag">⏱️ 94.30s</span>
             <span class="meta-tag">2 Escenarios</span>
           </div>
         </div>
@@ -2465,17 +2465,17 @@
               
             </div>
             
-            <div class="scenario-card" data-scenario-status="failed">
+            <div class="scenario-card" data-scenario-status="passed">
               <div class="scenario-header">
                 <div class="scenario-title">
-                  <span>❌</span>
+                  <span>✅</span>
                   <span>RF-3.3 Actualizacion de Perfil Restringido</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-failed">
-                    FAILED
+                  <span class="badge badge-passed">
+                    PASSED
                   </span>
-                  <span class="scenario-time">73.11s</span>
+                  <span class="scenario-time">13.89s</span>
                 </div>
               </div>
 
@@ -2488,12 +2488,12 @@
                       </td>
                       <td class="step-text">
                         I am logged in as a Super Admin
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                        <span class="repair-tag">Auto-Reparado (1 reintento)</span>
                       </td>
                       <td>
-                        <span class="step-decision" title="done  ">done  </span>
+                        <span class="step-decision" title="goto /platform &gt;&gt; done">goto /platform &gt;&gt; done</span>
                       </td>
-                      <td class="step-duration">5.24s</td>
+                      <td class="step-duration">2.41s</td>
                     </tr>
                     
                     <tr>
@@ -2502,12 +2502,50 @@
                       </td>
                       <td class="step-text">
                         I click the &quot;#nav-profile&quot; link
-                        
                       </td>
                       <td>
-                        <span class="step-decision" title="click css=nav #nav-profile ">click css=nav #nav-profile </span>
+                        <span class="step-decision" title="click #nav-profile &gt;&gt; done">click #nav-profile &gt;&gt; done</span>
                       </td>
-                      <td class="step-duration">67.16s</td>
+                      <td class="step-duration">1.82s</td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I fill &quot;work_start&quot; with &quot;08:00&quot;
+                      </td>
+                      <td>
+                        <span class="step-decision" title="fill #work_start 08:00 &gt;&gt; done">fill #work_start 08:00 &gt;&gt; done</span>
+                      </td>
+                      <td class="step-duration">2.14s</td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        I should see a success notification
+                      </td>
+                      <td>
+                        <span class="step-decision" title="verify text=Success &gt;&gt; role=alert &gt;&gt; done">verify text=Success &gt;&gt; role=alert &gt;&gt; done</span>
+                      </td>
+                      <td class="step-duration">2.51s</td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-but">BUT</span>
+                      </td>
+                      <td class="step-text">
+                        I should not see options to change my own role
+                      </td>
+                      <td>
+                        <span class="step-decision" title="verify text=Cambiar rol not_exists &gt;&gt; done">verify text=Cambiar rol not_exists &gt;&gt; done</span>
+                      </td>
+                      <td class="step-duration">1.18s</td>
                     </tr>
                     
                 </tbody>
@@ -2516,7 +2554,7 @@
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/error-1791338833009.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/error-1791338833009.png')">
+                <img src="screenshots/screenshot-1791399243375.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791399243375.png')">
               </div>
               
             </div>

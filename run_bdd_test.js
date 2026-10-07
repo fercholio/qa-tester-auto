@@ -9,12 +9,13 @@ class MockSocket {
 
 async function run() {
   const runner = new BddAiRunner(process.env.GROQ_API_KEY, new MockSocket());
-  const passed = await runner.runScenario('./bdd/features/rf-1.4.feature', 'http://localhost:3000/platform', {
+  const result = await runner.runFeature('./bdd/features/rf-user.feature', 'http://localhost:3000/platform', {
     loginUrl: 'http://localhost:3000/login',
-    email: 'super@demo.com', // wait, is this the right superadmin?
+    email: 'super@demo.com',
     password: 'password' 
   });
-  console.log('Test result:', passed);
+  console.log('Test result passed:', result.passed);
+  console.log('Scenarios summary:', result.scenarios?.map(s => ({ title: s.title, passed: s.passed, error: s.error })));
 }
 
 run();
