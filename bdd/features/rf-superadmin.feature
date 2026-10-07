@@ -18,16 +18,17 @@ Feature: Super Administrador (Global)
     Given I am logged in as a Super Admin
     When I click the "#btn-workspace-platform" button
     And I click the "#nav-tenants" link
-    When I click "+ Nuevo"
+    When I click "+ Nuevo Cliente"
     And I fill "name" with "Tech Corp V2"
-    And I fill "code" with "TECHV2"
-    And I select "plan_id" with "Plan Enterprise"
-    And I click "Guardar Corporativo"
+    And I click "Siguiente"
+    And I fill "contact_email" with "admin@techcorp.com"
+    And I click "Siguiente"
+    And I click "Crear Empresa"
     Then the tenant "Tech Corp V2" should exist in the table
 
   Scenario: RF-11.1 Visualizacion de Dashboard Global
     Given I am logged in as a Super Admin
     When I click the "#btn-workspace-platform" button
     And I click "Dashboard"
-    Then I should see "Total Corporativos"
-    And I should see "Ingresos Totales"
+    Then I should see "Tenants activos"
+    And I should see "Rentabilidad"

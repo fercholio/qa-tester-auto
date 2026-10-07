@@ -7,8 +7,9 @@ Feature: Usuario / Empleado
     Given I am logged in as a Super Admin
     When I click "Tenants"
     And I click the first "Gestionar" button
-    And I click "Timesheet"
-    When I click "+ Registrar Tiempo"
+    Then I should be redirected to the dashboard
+    And I click "Entradas"
+    When I click "Nueva Entrada"
     And I fill "project_name" with "Defensa Civil"
     And I fill "task_name" with "Revision de Expediente"
     And I fill "duration" with "02:00"
@@ -18,7 +19,6 @@ Feature: Usuario / Empleado
   Scenario: RF-3.3 Actualizacion de Perfil Restringido
     Given I am logged in as a Super Admin
     When I click the "#nav-profile" link
-    And I fill "language" with "es-MX"
-    And I click "Guardar Configuracion"
+    And I fill "work_start" with "08:00"
     Then I should see a success notification
     But I should not see options to change my own role

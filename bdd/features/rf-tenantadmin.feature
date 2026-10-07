@@ -7,7 +7,11 @@ Feature: Tenant Admin (Administrador Corporativo)
     Given I am logged in as a Tenant Admin
     When I click "Nueva Empresa"
     And I fill "name" with "ILCO Operaciones"
-    And I click "Crear Empresa"
+    And I click "Siguiente"
+    And I fill "contact_email" with "operaciones@ilco.com"
+    And I click "Siguiente"
+    And I click "Siguiente"
+    And I click "Confirmar y Crear"
     Then the tenant "ILCO Operaciones" should exist in my organization
     And I should see it in my Workspace Switcher
 
@@ -15,16 +19,15 @@ Feature: Tenant Admin (Administrador Corporativo)
     Given I am logged in as a Tenant Admin
     When I select the workspace "ILCO Operaciones"
     And I click "Organigrama"
-    When I click "+ Nuevo Puesto"
+    When I click "+ Nuevo Puesto Raíz"
     And I fill "title" with "Director General"
     And I fill "cost_rate" with "500"
-    And I click "Guardar"
+    And I click "Crear Puesto"
     Then the position "Director General" should exist in the tree
-    When I click "+ Nuevo Puesto"
+    When I click "+"
     And I fill "title" with "Analista Senior"
-    And I select "parent_id" with "Director General"
     And I fill "cost_rate" with "200"
-    And I click "Guardar"
+    And I click "Crear Puesto"
     Then the position "Analista Senior" should be nested under "Director General"
 
   Scenario: RF-2.2 Creacion de Proyectos
@@ -39,10 +42,10 @@ Feature: Tenant Admin (Administrador Corporativo)
   Scenario: RF-3.1 Configurar Metas de Valor en el Organigrama
     Given I am logged in as a Tenant Admin
     And I click "Organigrama"
-    And I click "Editar" on the position "Director General"
+    And I click "✎" on the position "Director General"
     And I fill "valor_percentage" with "80"
     And I fill "admin_percentage" with "20"
-    And I click "Guardar Meta"
+    And I click "Guardar Cambios"
     Then I should see a success notification
 
   Scenario: RF-12.1 Generacion de Informe IA de Diagnostico Organizacional
@@ -50,4 +53,4 @@ Feature: Tenant Admin (Administrador Corporativo)
     When I click "Análisis IA"
     And I click "Generar Análisis"
     And I click "Analizar con IA"
-    Then I should see the report status as "En Proceso"
+    Then I should see the report status as "processing"

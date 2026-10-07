@@ -95,6 +95,11 @@ class BddAiRunner {
                 await page.waitForTimeout(1000);
               } else if (result.action === 'fill') {
                 await page.fill(result.selector, result.value, { timeout: 5000 });
+              } else if (result.action === 'select') {
+                await page.selectOption(result.selector, { label: result.value }).catch(async () => {
+                  await page.selectOption(result.selector, result.value);
+                });
+                await page.waitForTimeout(500);
               } else if (result.action === 'verify') {
                 const verifyValue = result.value || result.selector.replace('text=', '').replace(/['"]/g, '');
                 let html = await page.content();
@@ -151,10 +156,10 @@ class BddAiRunner {
 
   async extractDom(page) {
     return await page.evaluate(() => {
-      const elements = Array.from(document.querySelectorAll('button, a, input, select'));
+      const elements = Array.from(document.querySelectorAll('button, a, input, select, [role="button"], [role="tab"]'));
       return elements.map(el => ({
         tag: el.tagName,
-        text: el.innerText || el.placeholder || el.value || '',
+        text: el.innerText || el.placeholder || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '',
         id: el.id,
         cssClass: el.className
       })).filter(el => el.text || el.id);
@@ -178,9 +183,9 @@ ${JSON.stringify(domState, null, 2)}
 
 Devuelve SOLO un JSON con este formato (nada de texto adicional):
 {
-  "action": "click" | "fill" | "verify" | "goto" | "done",
+  "action": "click" | "fill" | "select" | "verify" | "goto" | "done",
   "selector": "selector valido de Playwright. Si hay múltiples botones con el mismo texto, usa el motor de texto con pseudo-clase estricta, ej: text=Gestionar >> nth=0",
-  "value": "valor a escribir, URL para goto, o verificar",
+  "value": "valor a escribir, opción a seleccionar (label o value), URL para goto, o verificar",
   "expected": "exists" | "not_exists" (solo si action es verify)
 }
 IMPORTANTE: Si consideras que el paso ya fue completado con las acciones previas o ya estás en el estado correcto, devuelve "action": "done".
