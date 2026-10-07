@@ -109,6 +109,8 @@ async function runAll() {
   const publicDir = path.join(__dirname, 'public');
   if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
   fs.writeFileSync(path.join(publicDir, 'report.html'), htmlContent);
+  const timeTrackingReport = path.resolve(__dirname, '..', 'timetracking', 'report.html');
+  try { fs.writeFileSync(timeTrackingReport, htmlContent); } catch (_) {}
 
   console.log(`\n======================================================`);
   console.log(`✨ BDD SUITE COMPLETED ✨`);
