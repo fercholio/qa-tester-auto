@@ -54,3 +54,35 @@ Feature: Tenant Admin (Administrador Corporativo)
     And I click "Generar Análisis"
     And I click "Analizar con IA"
     Then I should see the report status as "processing"
+
+  Scenario: RF-2.3 Prevencion de Referencias Ciclicas en el Organigrama (Edge Case)
+    Given I am logged in as a Tenant Admin
+    When I click "Organigrama"
+    And I click "Editar" on the position "Director General"
+    And I select parent position "Analista Senior"
+    And I click "Guardar Cambios"
+    Then I should see a validation error preventing cyclic hierarchy loop
+
+  Scenario: RF-2.4 Proteccion al Eliminar Puesto con Usuarios Asignados (Edge Case)
+    Given I am logged in as a Tenant Admin
+    When I click "Organigrama"
+    And I click "Eliminar" on the position "Director General"
+    Then I should see a modal warning that position has assigned active users and cannot be deleted
+
+  Scenario: RF-3.2 Validacion de Suma de Metas que Excedan 100% (Edge Case)
+    Given I am logged in as a Tenant Admin
+    When I click "Organigrama"
+    And I click "✎" on the position "Director General"
+    And I fill "valor_percentage" with "70"
+    And I fill "admin_percentage" with "50"
+    And I click "Guardar Cambios"
+    Then I should see a validation error indicating sum of percentages cannot exceed 100
+
+  Scenario: RF-9.1 Creacion y Asignacion de Etiquetas Facturables (Tags)
+    Given I am logged in as a Tenant Admin
+    When I click "Etiquetas"
+    When I click "+ Nueva Etiqueta"
+    And I fill "tag_name" with "Facturable Extraordinario"
+    And I select "billable" as "true"
+    And I click "Guardar"
+    Then the tag "Facturable Extraordinario" should exist in the tags table
