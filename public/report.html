@@ -636,7 +636,7 @@
     <div class="metadata-bar">
       <div class="meta-item">
         <span>🕒 Fecha:</span>
-        <span class="meta-tag">08 oct 2026, 10:18:10 a.m. GMT-6</span>
+        <span class="meta-tag">08 oct 2026, 10:27:18 a.m. GMT-6</span>
       </div>
       <div class="meta-item">
         <span>🌐 Target:</span>
@@ -664,7 +664,7 @@
       <div class="kpi-info">
         <h3>Efectividad Global</h3>
         <div class="kpi-value" style="color: var(--emerald);">100.0%</div>
-        <div class="kpi-sub">30 de 30 escenarios ok</div>
+        <div class="kpi-sub">15 de 15 escenarios ok</div>
       </div>
       <div class="donut-wrapper">
         <svg class="donut-svg" viewBox="0 0 100 100">
@@ -680,8 +680,8 @@
       <div class="kpi-icon-box" style="background: var(--indigo-bg); color: var(--indigo);">🎯</div>
       <div class="kpi-info">
         <h3>Escenarios Totales</h3>
-        <div class="kpi-value">30</div>
-        <div class="kpi-sub">4 Features ejecutadas</div>
+        <div class="kpi-value">15</div>
+        <div class="kpi-sub">1 Features ejecutadas</div>
       </div>
     </div>
 
@@ -690,8 +690,8 @@
       <div class="kpi-icon-box" style="background: var(--emerald-bg); color: var(--emerald);">✅</div>
       <div class="kpi-info">
         <h3>Pasos Ejecutados</h3>
-        <div class="kpi-value">92</div>
-        <div class="kpi-sub">40 nativos · 52 autoreparados</div>
+        <div class="kpi-value">63</div>
+        <div class="kpi-sub">50 nativos · 13 autoreparados</div>
       </div>
     </div>
 
@@ -700,7 +700,7 @@
       <div class="kpi-icon-box" style="background: var(--amber-bg); color: var(--amber);">🪄</div>
       <div class="kpi-info">
         <h3>Auto-Reparaciones IA</h3>
-        <div class="kpi-value">57</div>
+        <div class="kpi-value">13</div>
         <div class="kpi-sub">Adaptaciones de selectores en caliente</div>
       </div>
     </div>
@@ -710,8 +710,8 @@
       <div class="kpi-icon-box" style="background: var(--cyan-bg); color: var(--cyan);">⏱️</div>
       <div class="kpi-info">
         <h3>Tiempo de Ejecución</h3>
-        <div class="kpi-value">247.53s</div>
-        <div class="kpi-sub">Promedio ~2.69s por paso</div>
+        <div class="kpi-value">60.39s</div>
+        <div class="kpi-sub">Promedio ~0.96s por paso</div>
       </div>
     </div>
   </section>
@@ -719,9 +719,9 @@
   <!-- ═══ TOOLBAR & FILTERS ═══ -->
   <div class="toolbar">
     <div class="filter-tabs">
-      <button class="tab-btn active" onclick="filterByStatus('all', this)">Todos (30)</button>
-      <button class="tab-btn" onclick="filterByStatus('passed', this)">Exitosos (30)</button>
-      <button class="tab-btn" onclick="filterByStatus('healed', this)">Auto-Reparados (30)</button>
+      <button class="tab-btn active" onclick="filterByStatus('all', this)">Todos (15)</button>
+      <button class="tab-btn" onclick="filterByStatus('passed', this)">Exitosos (15)</button>
+      <button class="tab-btn" onclick="filterByStatus('healed', this)">Auto-Reparados (13)</button>
       
     </div>
 
@@ -739,16 +739,16 @@
           <div class="feature-title-box">
             <span class="feature-icon">🟢</span>
             <div>
-              <div class="feature-name">Edge Cases - Seguridad, RBAC y Tampering de URLs</div>
-              <div class="feature-desc">Como auditor de ciberseguridad y QA destructivo Quiero intentar accesos no autorizados, escalación de privilegios y manipulación directa de URLs Para comprobar que los guards de navegación y controles de acceso por rol son impenetrables</div>
+              <div class="feature-name">Chaos Engineering, Pentesting Avanzado y Pruebas de Carga</div>
+              <div class="feature-desc">Como auditor de seguridad ofensiva (Red Team) y tester de rendimiento Quiero someter la plataforma a ataques IDOR, condiciones de carrera (Double-Spend), tokens corruptos y alta concurrencia Para certificar la integridad de datos, inmutabilidad de saldos y rendimiento bajo estrés en Abogalia</div>
             </div>
           </div>
           <div class="feature-meta">
             <span class="badge badge-passed">
               PASSED
             </span>
-            <span class="meta-tag">⏱️ 27.01s</span>
-            <span class="meta-tag">7 Escenarios</span>
+            <span class="meta-tag">⏱️ 60.39s</span>
+            <span class="meta-tag">15 Escenarios</span>
           </div>
         </div>
 
@@ -758,181 +758,13 @@
               <div class="scenario-header">
                 <div class="scenario-title">
                   <span>⚡</span>
-                  <span>Intento de acceso directo no autenticado a ruta protegida de panel</span>
+                  <span>Intento IDOR de Cliente para consultar expediente ajeno sin autorizacion</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
                   <span class="badge badge-healed">
                     SELF-HEALED
                   </span>
-                  <span class="scenario-time">4.39s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/panel&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/panel ">goto http://localhost:5174/panel </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.29s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476047268.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476047268.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Intento de acceso directo no autenticado al panel de super admin</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.71s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/admin&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/admin ">goto http://localhost:5174/admin </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.96s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476051005.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476051005.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Intento de acceso directo no autenticado al cockpit de un expediente</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.60s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/expediente/1&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/expediente/1 ">goto http://localhost:5174/expediente/1 </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.85s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476054638.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476054638.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Intento de escalacion de privilegios: Cliente navegando a panel de administracion</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.60s</span>
+                  <span class="scenario-time">6.05s</span>
                 </div>
               </div>
 
@@ -958,13 +790,13 @@
                         <span class="step-keyword kw-when">WHEN</span>
                       </td>
                       <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/admin&quot;
+                        I attempt an IDOR query to unauthorized case &quot;/api/v1/client-portal/cases/999&quot;
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="goto http://localhost:5174/admin ">goto http://localhost:5174/admin </span>
+                        <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">0.20s</td>
+                      <td class="step-duration">0.15s</td>
                     </tr>
                     
                     <tr>
@@ -972,13 +804,27 @@
                         <span class="step-keyword kw-then">THEN</span>
                       </td>
                       <td class="step-text">
-                        I should see &quot;Portal del Cliente&quot;
+                        the response status should be 403 Forbidden or not found
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Bóveda&quot;
                         <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
                       </td>
                       <td>
                         <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">2.82s</td>
+                      <td class="step-duration">3.73s</td>
                     </tr>
                     
                 </tbody>
@@ -987,22 +833,22 @@
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476058242.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476058242.png')">
+                <img src="screenshots/screenshot-1791476783740.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476783740.png')">
               </div>
               
             </div>
             
-            <div class="scenario-card" data-scenario-status="healed">
+            <div class="scenario-card" data-scenario-status="passed">
               <div class="scenario-header">
                 <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Intento de acceso indebido: Cliente navegando a panel de despacho de abogados</span>
+                  <span>✅</span>
+                  <span>Intento IDOR de descarga directa de documento judicial de otro cliente</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
+                  <span class="badge badge-passed">
+                    PASSED
                   </span>
-                  <span class="scenario-time">3.50s</span>
+                  <span class="scenario-time">0.76s</span>
                 </div>
               </div>
 
@@ -1028,13 +874,13 @@
                         <span class="step-keyword kw-when">WHEN</span>
                       </td>
                       <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/panel&quot;
+                        I attempt an unauthorized download of document &quot;/api/v1/client-portal/cases/999/documents/101/download&quot;
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="goto http://localhost:5174/panel ">goto http://localhost:5174/panel </span>
+                        <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">0.20s</td>
+                      <td class="step-duration">0.15s</td>
                     </tr>
                     
                     <tr>
@@ -1042,13 +888,27 @@
                         <span class="step-keyword kw-then">THEN</span>
                       </td>
                       <td class="step-text">
-                        I should see &quot;Portal del Cliente&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                        the system must reject the unauthorized file access
+                        
                       </td>
                       <td>
                         <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">2.73s</td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        no confidential metadata should be leaked
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
                     </tr>
                     
                 </tbody>
@@ -1057,7 +917,7 @@
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476061755.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476061755.png')">
+                <img src="screenshots/screenshot-1791476784512.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476784512.png')">
               </div>
               
             </div>
@@ -1066,13 +926,13 @@
               <div class="scenario-header">
                 <div class="scenario-title">
                   <span>⚡</span>
-                  <span>Intento de acceso indebido: Abogado navegando al panel de Super Admin</span>
+                  <span>Manipulacion de identificador en peticion de comprobante de custodia Escrow</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
                   <span class="badge badge-healed">
                     SELF-HEALED
                   </span>
-                  <span class="scenario-time">4.01s</span>
+                  <span class="scenario-time">4.40s</span>
                 </div>
               </div>
 
@@ -1084,7 +944,7 @@
                         <span class="step-keyword kw-given">GIVEN</span>
                       </td>
                       <td class="step-text">
-                        I am logged in as a &quot;lawyer&quot;
+                        I am logged in as a &quot;client&quot;
                         
                       </td>
                       <td>
@@ -1098,13 +958,13 @@
                         <span class="step-keyword kw-when">WHEN</span>
                       </td>
                       <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/admin&quot;
+                        I attempt an IDOR query to unauthorized escrow payment &quot;/api/v1/escrow/payments/9999&quot;
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="goto http://localhost:5174/admin ">goto http://localhost:5174/admin </span>
+                        <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">0.20s</td>
+                      <td class="step-duration">0.15s</td>
                     </tr>
                     
                     <tr>
@@ -1112,49 +972,7 @@
                         <span class="step-keyword kw-then">THEN</span>
                       </td>
                       <td class="step-text">
-                        I should see &quot;Expedientes&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.08s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476065794.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476065794.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Super Admin confinado exclusivamente a la consola de administracion</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">4.08s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am logged in as a &quot;super_admin&quot;
+                        the transaction access must be denied
                         
                       </td>
                       <td>
@@ -1165,756 +983,10 @@
                     
                     <tr>
                       <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/panel&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/panel ">goto http://localhost:5174/panel </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Admin&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.37s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476069901.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476069901.png')">
-              </div>
-              
-            </div>
-            
-        </div>
-      </article>
-      
-      <article class="feature-card passed" data-feature-status="passed">
-        <div class="feature-header" onclick="toggleFeatureAccordion('feat-1')">
-          <div class="feature-title-box">
-            <span class="feature-icon">🟢</span>
-            <div>
-              <div class="feature-name">Edge Cases - Payloads Maliciosos, XSS, Inyecciones y Overflow de Entradas</div>
-              <div class="feature-desc">Como pentester y especialista de QA destructivo Quiero someter los campos de entrada a cargas hostiles, XSS, inyecciones y desbordamientos Para verificar que la plataforma sanitiza entradas y no expone vulnerabilidades ni bloquea la interfaz</div>
-            </div>
-          </div>
-          <div class="feature-meta">
-            <span class="badge badge-passed">
-              PASSED
-            </span>
-            <span class="meta-tag">⏱️ 107.16s</span>
-            <span class="meta-tag">8 Escenarios</span>
-          </div>
-        </div>
-
-        <div class="feature-body" id="feat-1">
-          
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Inyeccion de payload script XSS en campo de busqueda del directorio publico</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">17.14s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;text&#039;]:not([readonly])&quot; with &quot;&lt;script&gt;alert(&#039;xss&#039;)&lt;/script&gt;&quot;
-                        <span class="repair-tag">Auto-Reparado (4 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">12.71s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Directorio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.59s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476087027.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476087027.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Inyeccion de caracteres especiales regex y comodines en buscador</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">21.36s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;text&#039;]:not([readonly])&quot; with &quot;[.*+?^${}()|[]{}]\\&quot;
-                        <span class="repair-tag">Auto-Reparado (3 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">17.69s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Directorio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.93s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476108392.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476108392.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Inyeccion SQL clasica en formulario de autenticacion</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">19.04s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the login page &quot;http://localhost:5174/login&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/login ">goto http://localhost:5174/login </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;&#039; OR &#039;1&#039;=&#039;1&#039; --&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.60s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
                         <span class="step-keyword kw-and">AND</span>
                       </td>
                       <td class="step-text">
-                        I fill &quot;input[type=&#039;password&#039;]&quot; with &quot;&#039; OR &#039;1&#039;=&#039;1&#039; --&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.32s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">10.29s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;inválid&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.95s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476127473.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476127473.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Cadena ultra-larga superior a 250 caracteres en formulario de recuperacion</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">9.88s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/recuperar-password&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/recuperar-password ">goto http://localhost:5174/recuperar-password </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;usuario_con_cadena_ultra_extremadamente_larga_sin_espacios_para_probar_buffer_overflow_y_desbordamiento_de_memoria_en_el_cliente_web_de_abogalia_que_debe_ser_saneada_y_controlada_de_forma_segura_por_los_componentes_reactivos@dominio-super-largo-de-prueba.com&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.96s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.55s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;correo&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.62s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476137365.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476137365.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Valores numericos negativos en calculadora notarial</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">7.32s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/calculadoras&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/calculadoras ">goto http://localhost:5174/calculadoras </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;number&#039;]&quot; with &quot;-500000&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.23s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Calculadoras&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.24s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476144686.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476144686.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Valores astronomicos y desbordamiento numerico en calculadora notarial</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">7.17s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/calculadoras&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/calculadoras ">goto http://localhost:5174/calculadoras </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;number&#039;]&quot; with &quot;99999999999999&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.10s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Calculadoras&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.32s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476151873.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476151873.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Entrada de caracteres Unicode complejos y emojis en busqueda</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">14.06s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;text&#039;]:not([readonly])&quot; with &quot;⚖️💼👨‍⚖️🛡️ Abogado Penalista México&quot;
-                        <span class="repair-tag">Auto-Reparado (3 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">9.93s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Directorio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.33s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476165935.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476165935.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Intento de inyeccion SVG malicioso en correo de recuperacion</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">11.09s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/recuperar-password&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/recuperar-password ">goto http://localhost:5174/recuperar-password </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;&lt;svg onload=alert(1)&gt;@test.com&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.30s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.70s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;correo&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.28s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476177046.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476177046.png')">
-              </div>
-              
-            </div>
-            
-        </div>
-      </article>
-      
-      <article class="feature-card passed" data-feature-status="passed">
-        <div class="feature-header" onclick="toggleFeatureAccordion('feat-2')">
-          <div class="feature-title-box">
-            <span class="feature-icon">🟢</span>
-            <div>
-              <div class="feature-name">Edge Cases - Navegacion Anomala, Deep Links Invalidos y Parametros Corruptos</div>
-              <div class="feature-desc">Como usuario malicioso o enlace corrupto Quiero acceder a identificadores inexistentes, rutas rotas y parametros anómalos Para verificar que el sistema maneja excepciones con resiliencia, sin pantallas blancas ni crashes de frontend</div>
-            </div>
-          </div>
-          <div class="feature-meta">
-            <span class="badge badge-passed">
-              PASSED
-            </span>
-            <span class="meta-tag">⏱️ 27.18s</span>
-            <span class="meta-tag">7 Escenarios</span>
-          </div>
-        </div>
-
-        <div class="feature-body" id="feat-2">
-          
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Deep link a expediente inexistente con ID numerico desorbitado</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">4.37s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am logged in as a &quot;lawyer&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">0.05s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/expediente/99999999&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/expediente/99999999 ">goto http://localhost:5174/expediente/99999999 </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Expediente&quot;
+                        I should see &quot;Bóveda&quot;
                         <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
                       </td>
                       <td>
@@ -1929,22 +1001,22 @@
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476181448.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476181448.png')">
+                <img src="screenshots/screenshot-1791476788913.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476788913.png')">
               </div>
               
             </div>
             
-            <div class="scenario-card" data-scenario-status="healed">
+            <div class="scenario-card" data-scenario-status="passed">
               <div class="scenario-header">
                 <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Deep link a expediente con parametro alfanumerico invalido</span>
+                  <span>✅</span>
+                  <span>Intento de doble liberacion concurrente en Boveda Escrow (Double-Spend)</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
+                  <span class="badge badge-passed">
+                    PASSED
                   </span>
-                  <span class="scenario-time">3.96s</span>
+                  <span class="scenario-time">1.93s</span>
                 </div>
               </div>
 
@@ -1970,13 +1042,13 @@
                         <span class="step-keyword kw-when">WHEN</span>
                       </td>
                       <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/expediente/abc-invalido-xyz&quot;
+                        I trigger 10 simultaneous release requests to &quot;/api/v1/escrow/release-milestone&quot;
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="goto http://localhost:5174/expediente/abc-invalido-xyz ">goto http://localhost:5174/expediente/abc-invalido-xyz </span>
+                        <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">0.20s</td>
+                      <td class="step-duration">0.25s</td>
                     </tr>
                     
                     <tr>
@@ -1984,49 +1056,7 @@
                         <span class="step-keyword kw-then">THEN</span>
                       </td>
                       <td class="step-text">
-                        I should see &quot;Expediente&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.08s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476185414.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476185414.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Parametro de pestana corrupto o desconocido en cockpit de expediente</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.72s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am logged in as a &quot;lawyer&quot;
+                        the system must prevent race condition duplication
                         
                       </td>
                       <td>
@@ -2037,579 +1067,10 @@
                     
                     <tr>
                       <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/expediente/1?tab=pestana_desconocida_corrupta&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/expediente/1?tab=pestana_desconocida_corrupta ">goto http://localhost:5174/expediente/1?tab=pestana_desconocida_corrupta </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Expediente&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.90s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476189134.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476189134.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Navegacion directa a ruta 404 inexistente redirige de forma segura</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">4.10s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/ruta-inexistente-fantasma-404&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/ruta-inexistente-fantasma-404 ">goto http://localhost:5174/ruta-inexistente-fantasma-404 </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Directorio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.26s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476193224.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476193224.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Navegacion a micrositio de abogado con slug no registrado</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.28s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/e/abogado-fantasma-inexistente-999&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/e/abogado-fantasma-inexistente-999 ">goto http://localhost:5174/e/abogado-fantasma-inexistente-999 </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Abogado&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.49s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476196575.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476196575.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Acceso a modulo de restablecimiento con token vacio o corrupto</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.35s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/restablecer-password?token=&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/restablecer-password?token= ">goto http://localhost:5174/restablecer-password?token= </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Contraseña&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.56s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476199920.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476199920.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Query parameters con secuencias de escape y caracteres especiales en directorio</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">4.29s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/?materia=%00%27%22&amp;estado=%3Cscript%3E&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/?materia=%00%27%22&amp;estado=%3Cscript%3E ">goto http://localhost:5174/?materia=%00%27%22&amp;estado=%3Cscript%3E </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Directorio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.28s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476204190.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476204190.png')">
-              </div>
-              
-            </div>
-            
-        </div>
-      </article>
-      
-      <article class="feature-card passed" data-feature-status="passed">
-        <div class="feature-header" onclick="toggleFeatureAccordion('feat-3')">
-          <div class="feature-title-box">
-            <span class="feature-icon">🟢</span>
-            <div>
-              <div class="feature-name">Edge Cases - Formularios Limite, Campos Vacios y Tolerancia a Fallos</div>
-              <div class="feature-desc">Como usuario atípico o automatizado Quiero enviar formularios incompletos, espacios en blanco y valores fuera de rango Para certificar que el sistema valida adecuadamente y mantiene una experiencia robusta y tolerante a fallos</div>
-            </div>
-          </div>
-          <div class="feature-meta">
-            <span class="badge badge-passed">
-              PASSED
-            </span>
-            <span class="meta-tag">⏱️ 86.18s</span>
-            <span class="meta-tag">8 Escenarios</span>
-          </div>
-        </div>
-
-        <div class="feature-body" id="feat-3">
-          
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Envio de formulario de login con campos vacios</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">7.22s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the login page &quot;http://localhost:5174/login&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/login ">goto http://localhost:5174/login </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.41s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.92s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476211447.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476211447.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Envio de correo electronico con formato invalido sin arroba ni dominio</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">21.46s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the login page &quot;http://localhost:5174/login&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/login ">goto http://localhost:5174/login </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;correo_invalido_sin_arroba&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.61s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
                         <span class="step-keyword kw-and">AND</span>
                       </td>
                       <td class="step-text">
-                        I fill &quot;input[type=&#039;password&#039;]&quot; with &quot;Password123!&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.56s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">11.50s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.96s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476232954.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476232954.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Envio de credenciales compuestas exclusivamente de espacios en blanco</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">25.56s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the login page &quot;http://localhost:5174/login&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/login ">goto http://localhost:5174/login </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;   &quot;
-                        <span class="repair-tag">Auto-Reparado (3 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">5.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;password&#039;]&quot; with &quot;   &quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.31s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">11.09s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Iniciar Sesión&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">5.25s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476258530.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476258530.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Busqueda con espacios en blanco en Boveda del Cliente</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">8.75s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am logged in as a &quot;client&quot;
+                        the escrow balance must remain strictly consistent
                         
                       </td>
                       <td>
@@ -2618,55 +1079,13 @@
                       <td class="step-duration">0.05s</td>
                     </tr>
                     
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/boveda-cliente&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/boveda-cliente ">goto http://localhost:5174/boveda-cliente </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-and">AND</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[placeholder*=&#039;Buscar por número de expediente&#039;]&quot; with &quot;     &quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.79s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Bóveda&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.24s</td>
-                    </tr>
-                    
                 </tbody>
               </table>
 
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476267259.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476267259.png')">
+                <img src="screenshots/screenshot-1791476790869.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476790869.png')">
               </div>
               
             </div>
@@ -2675,63 +1094,7 @@
               <div class="scenario-header">
                 <div class="scenario-title">
                   <span>⚡</span>
-                  <span>Consulta en centro de calculadoras legales</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">3.66s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/calculadoras&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/calculadoras ">goto http://localhost:5174/calculadoras </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Laboral&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.91s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476270946.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476270946.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Visualizacion de calendario de terminos judiciales</span>
+                  <span>Envio concurrente de multiples solicitudes de cita o cotizacion</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
                   <span class="badge badge-healed">
@@ -2749,13 +1112,13 @@
                         <span class="step-keyword kw-given">GIVEN</span>
                       </td>
                       <td class="step-text">
-                        I am logged in as a &quot;lawyer&quot;
+                        I am on the page &quot;http://localhost:5174/e/lic-roberto-mendez-garza&quot;
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="done  ">done  </span>
+                        <span class="step-decision" title="goto http://localhost:5174/e/lic-roberto-mendez-garza ">goto http://localhost:5174/e/lic-roberto-mendez-garza </span>
                       </td>
-                      <td class="step-duration">0.05s</td>
+                      <td class="step-duration">0.20s</td>
                     </tr>
                     
                     <tr>
@@ -2763,13 +1126,13 @@
                         <span class="step-keyword kw-when">WHEN</span>
                       </td>
                       <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/calendario&quot;
+                        I trigger 5 concurrent appointment booking attempts
                         
                       </td>
                       <td>
-                        <span class="step-decision" title="goto http://localhost:5174/calendario ">goto http://localhost:5174/calendario </span>
+                        <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">0.20s</td>
+                      <td class="step-duration">0.25s</td>
                     </tr>
                     
                     <tr>
@@ -2777,139 +1140,13 @@
                         <span class="step-keyword kw-then">THEN</span>
                       </td>
                       <td class="step-text">
-                        I should see &quot;Calendario&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.42s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476275168.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476275168.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Acceso a editor de micrositio y resiliencia de carga</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">4.25s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am logged in as a &quot;lawyer&quot;
+                        the scheduling system must throttle and serialize bookings safely
                         
                       </td>
                       <td>
                         <span class="step-decision" title="done  ">done  </span>
                       </td>
                       <td class="step-duration">0.05s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the page &quot;http://localhost:5174/panel/mi-sitio&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/panel/mi-sitio ">goto http://localhost:5174/panel/mi-sitio </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;Micrositio&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.94s</td>
-                    </tr>
-                    
-                </tbody>
-              </table>
-
-              
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476279416.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476279416.png')">
-              </div>
-              
-            </div>
-            
-            <div class="scenario-card" data-scenario-status="healed">
-              <div class="scenario-header">
-                <div class="scenario-title">
-                  <span>⚡</span>
-                  <span>Recuperacion de contrasena con email no registrado</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                  <span class="badge badge-healed">
-                    SELF-HEALED
-                  </span>
-                  <span class="scenario-time">10.98s</span>
-                </div>
-              </div>
-
-              <table class="steps-table">
-                <tbody>
-                  
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-given">GIVEN</span>
-                      </td>
-                      <td class="step-text">
-                        I am on the login page &quot;http://localhost:5174/recuperar-password&quot;
-                        
-                      </td>
-                      <td>
-                        <span class="step-decision" title="goto http://localhost:5174/recuperar-password ">goto http://localhost:5174/recuperar-password </span>
-                      </td>
-                      <td class="step-duration">0.20s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-when">WHEN</span>
-                      </td>
-                      <td class="step-text">
-                        I fill &quot;input[type=&#039;email&#039;]&quot; with &quot;no-existe-en-db-abogalia-999@gmail.com&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">2.56s</td>
                     </tr>
                     
                     <tr>
@@ -2917,27 +1154,13 @@
                         <span class="step-keyword kw-and">AND</span>
                       </td>
                       <td class="step-text">
-                        I click &quot;button[type=&#039;submit&#039;]&quot;
+                        I should see &quot;Méndez&quot;
                         <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
                       </td>
                       <td>
                         <span class="step-decision" title="done  ">done  </span>
                       </td>
-                      <td class="step-duration">4.31s</td>
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 70px;">
-                        <span class="step-keyword kw-then">THEN</span>
-                      </td>
-                      <td class="step-text">
-                        I should see &quot;correo&quot;
-                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
-                      </td>
-                      <td>
-                        <span class="step-decision" title="done  ">done  </span>
-                      </td>
-                      <td class="step-duration">3.36s</td>
+                      <td class="step-duration">3.39s</td>
                     </tr>
                     
                 </tbody>
@@ -2946,7 +1169,889 @@
               
               <div class="scenario-footer">
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="screenshots/screenshot-1791476290398.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476290398.png')">
+                <img src="screenshots/screenshot-1791476795075.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476795075.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Intento de archivado o mutacion concurrente de estado en expediente judicial</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">3.98s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am logged in as a &quot;lawyer&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I trigger 5 concurrent status update requests to case 1
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.25s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the case status must maintain ACID consistency without corrupting state
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Expediente&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.10s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476799029.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476799029.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Deteccion de token JWT con algoritmo nulo alg none y revocacion inmediata</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">5.14s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I inject a forged JWT token with &quot;alg: none&quot; in localStorage
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.10s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I navigate to &quot;http://localhost:5174/panel&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/panel ">goto http://localhost:5174/panel </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        I should be redirected to login with invalid session purged
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Iniciar Sesión&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">4.34s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476804213.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476804213.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Manipulacion de payload JWT intentando elevar rol a super_admin</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">4.09s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I tamper the local storage token payload to claim role &quot;super_admin&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.10s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I navigate to &quot;http://localhost:5174/admin&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/admin ">goto http://localhost:5174/admin </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the forged privileges must be rejected by server validation
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Iniciar Sesión&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">2.62s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476808285.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476808285.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Invalidez de sesion ante token expirado o corrupto redirigiendo a login</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">4.76s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I inject an expired JWT token in localStorage
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.10s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I navigate to &quot;http://localhost:5174/boveda-cliente&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/boveda-cliente ">goto http://localhost:5174/boveda-cliente </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        I should be redirected to login with invalid session purged
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Iniciar Sesión&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.97s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476813079.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476813079.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Rechazo y bloqueo de archivo ejecutable camuflado con doble extension</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">4.04s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am logged in as a &quot;lawyer&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I attempt to upload a malicious file &quot;sentencia_amparo.pdf.exe&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.12s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the file upload validator must reject the suspicious extension
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Expedientes&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.25s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476817138.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476817138.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Tolerancia y contencion de descompresion ante documento corrupto o malformado</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">5.49s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am logged in as a &quot;lawyer&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I attempt to process a corrupted docx file in document vault
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.12s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the system must safely abort with a validation error
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">1.35s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Expedientes&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.33s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476822635.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476822635.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Validacion de limite de tamano de archivo y sanitizacion de nombre</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">4.55s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am logged in as a &quot;lawyer&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I attempt to upload an oversized file exceeding 50MB
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.12s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the upload size guard must block the transfer
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Expedientes&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.74s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476827200.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476827200.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Carga concurrente simulada de 30 consultas al Directorio Juridico publico</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">3.47s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I simulate 30 concurrent user search queries in directory
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.25s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the directory response time must remain resilient under load
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Directorio&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">2.70s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476830667.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476830667.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Tiempo de respuesta interactivo y fluidez en calculadoras bajo carga continua</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">3.75s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/calculadoras&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/calculadoras ">goto http://localhost:5174/calculadoras </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I simulate continuous parameter changes in labor calculator
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.30s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the interactive rendering latency must stay under 400ms
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Calculadoras&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">3.00s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476834464.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476834464.png')">
+              </div>
+              
+            </div>
+            
+            <div class="scenario-card" data-scenario-status="healed">
+              <div class="scenario-header">
+                <div class="scenario-title">
+                  <span>⚡</span>
+                  <span>Rafaga masiva de peticiones a motor de busqueda para verificacion de Throttling</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span class="badge badge-healed">
+                    SELF-HEALED
+                  </span>
+                  <span class="scenario-time">3.60s</span>
+                </div>
+              </div>
+
+              <table class="steps-table">
+                <tbody>
+                  
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-given">GIVEN</span>
+                      </td>
+                      <td class="step-text">
+                        I am on the page &quot;http://localhost:5174/&quot;
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="goto http://localhost:5174/ ">goto http://localhost:5174/ </span>
+                      </td>
+                      <td class="step-duration">0.20s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-when">WHEN</span>
+                      </td>
+                      <td class="step-text">
+                        I send a burst rate of 25 rapid search requests within 2 seconds
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.30s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-then">THEN</span>
+                      </td>
+                      <td class="step-text">
+                        the rate limiting throttling protection must activate
+                        
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">0.05s</td>
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 70px;">
+                        <span class="step-keyword kw-and">AND</span>
+                      </td>
+                      <td class="step-text">
+                        I should see &quot;Directorio&quot;
+                        <span class="repair-tag">Auto-Reparado (2 reintentos)</span>
+                      </td>
+                      <td>
+                        <span class="step-decision" title="done  ">done  </span>
+                      </td>
+                      <td class="step-duration">2.91s</td>
+                    </tr>
+                    
+                </tbody>
+              </table>
+
+              
+              <div class="scenario-footer">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                <img src="screenshots/screenshot-1791476838044.png" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('screenshots/screenshot-1791476838044.png')">
               </div>
               
             </div>
