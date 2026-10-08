@@ -878,12 +878,36 @@ class HtmlReportGenerator {
                 </tbody>
               </table>
 
-              ${scenario.screenshot ? `
-              <div class="scenario-footer">
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
-                <img src="${scenario.screenshot}" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox('${scenario.screenshot}')">
-              </div>
-              ` : ''}
+              ${(() => {
+                if (!scenario.screenshot) return '';
+                let imgSrc = scenario.screenshot;
+                const candidatePaths = [
+                  path.isAbsolute(imgSrc) ? imgSrc : null,
+                  path.join(process.cwd(), 'public', imgSrc),
+                  path.join(process.cwd(), imgSrc),
+                  path.join(__dirname, '../../public', imgSrc),
+                  path.join(__dirname, '../../', imgSrc)
+                ].filter(Boolean);
+
+                for (const p of candidatePaths) {
+                  if (fs.existsSync(p) && fs.statSync(p).isFile()) {
+                    try {
+                      const ext = path.extname(p).replace('.', '').toLowerCase() || 'png';
+                      const mime = ext === 'jpg' ? 'jpeg' : ext;
+                      const base64 = fs.readFileSync(p).toString('base64');
+                      imgSrc = `data:image/${mime};base64,${base64}`;
+                      break;
+                    } catch (_) {}
+                  }
+                }
+
+                return `
+                <div class="scenario-footer">
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Evidencia visual capturada en tiempo de ejecución:</span>
+                  <img src="${imgSrc}" class="screenshot-thumb" alt="Captura de Pantalla" onclick="openLightbox(this.src)">
+                </div>
+                `;
+              })()}
             </div>
             `;
           }).join('')}
