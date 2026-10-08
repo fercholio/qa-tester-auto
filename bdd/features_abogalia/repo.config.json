@@ -1,0 +1,26 @@
+{
+  "name": "abogalia",
+  "displayName": "Abogalia LegalTech Platform",
+  "targetUrl": "http://localhost:5174",
+  "loginUrl": "http://localhost:5174/login",
+  "auth": {
+    "tokenKeys": ["abogalia_token", "abogalia_auth_token"],
+    "userKeys": ["abogalia_user"],
+    "credentials": {
+      "lawyer": { "email": "abogado@mendezgarza.mx", "password": "Password123!" },
+      "client": { "email": "cliente@gmail.com", "password": "Password123!" },
+      "super_admin": { "email": "admin@abogalia.mx", "password": "Password123!" },
+      "notary": { "email": "notario@notaria123cdmx.com", "password": "Password123!" },
+      "assistant": { "email": "pasante@mendezgarza.mx", "password": "Password123!" }
+    }
+  },
+  "security": {
+    "defaultIdorEndpoint": "/api/v1/client-portal/cases/999",
+    "defaultRaceEndpoint": "/api/v1/escrow/release-milestone",
+    "throttlingEndpoint": "/api/v1/jurisprudencia/search?q=amparo"
+  },
+  "performance": {
+    "maxInteractiveLatencyMs": 400,
+    "maxApiLatencyMs": 800
+  }
+}

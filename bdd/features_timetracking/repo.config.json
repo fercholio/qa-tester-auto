@@ -1,0 +1,23 @@
+{
+  "name": "timetracking",
+  "displayName": "TimeTracking Enterprise Platform",
+  "targetUrl": "http://localhost:3000",
+  "loginUrl": "http://localhost:3000/login",
+  "auth": {
+    "tokenKeys": ["auth_token", "access_token"],
+    "userKeys": ["auth_user", "current_user"],
+    "credentials": {
+      "super_admin": { "email": "superadmin@timetracking.com", "password": "Password123!" },
+      "tenant_admin": { "email": "tenantadmin@timetracking.com", "password": "Password123!" }
+    }
+  },
+  "security": {
+    "defaultIdorEndpoint": "/api/projects/9999/confidential-rates",
+    "defaultRaceEndpoint": "/api/time-entries/batch-approve",
+    "throttlingEndpoint": "/api/auth/forgot-password"
+  },
+  "performance": {
+    "maxInteractiveLatencyMs": 500,
+    "maxApiLatencyMs": 1000
+  }
+}

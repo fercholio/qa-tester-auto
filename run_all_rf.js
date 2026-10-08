@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const BddAiRunner = require('./src/usecases/BddAiRunner');
 const HtmlReportGenerator = require('./src/utils/HtmlReportGenerator');
+const RepoConfigLoader = require('./src/infrastructure/config/RepoConfigLoader');
 
 class MockSocket {
   emit(event, data) {
@@ -22,11 +23,11 @@ async function runAll() {
     : (fs.existsSync(repoDir) ? repoDir : path.join(__dirname, 'bdd', 'features'));
   console.log(`📁 Usando directorio de features: ${featuresDir}`);
   const files = fs.readdirSync(featuresDir).filter(f => f.endsWith('.feature')).sort();
-  
-  const targetUrl = process.env.TARGET_URL || 'http://localhost:5174';
-  const loginUrl = process.env.LOGIN_URL || 'http://localhost:5174/login';
 
-  const runner = new BddAiRunner(process.env.GROQ_API_KEY, new MockSocket());
+  const repoConfig = RepoConfigLoader.load(repoName, featuresDir);
+  console.log(`⚙️ Configuración cargada para repositorio: ${repoConfig.displayName} (${repoConfig.targetUrl})`);
+
+  const runner = new BddAiRunner(process.env.GROQ_API_KEY, new MockSocket(), repoConfig);
   const featureResults = [];
 
   let xmlReport = `<?xml version="1.0" encoding="UTF-8"?>\n<testsuites>\n`;
@@ -54,10 +55,11 @@ async function runAll() {
     
     let result = null;
     try {
-      result = await runner.runFeature(featurePath, targetUrl, {
-        loginUrl: loginUrl,
-        email: 'abogado@mendezgarza.mx',
-        password: 'Password123!'
+      const defaultCreds = repoConfig.auth.credentials.default || Object.values(repoConfig.auth.credentials)[0] || { email: '', password: '' };
+      result = await runner.runFeature(featurePath, repoConfig.targetUrl, {
+        loginUrl: repoConfig.loginUrl,
+        email: defaultCreds.email,
+        password: defaultCreds.password
       });
     } catch (e) {
       console.error(`Error executing ${file}:`, e);

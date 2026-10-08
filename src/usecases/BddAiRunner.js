@@ -2,11 +2,15 @@ const { chromium } = require('playwright');
 const Groq = require('groq-sdk');
 const fs = require('fs');
 const path = require('path');
+const ChaosEngine = require('../domain/security/ChaosEngine');
+const RepoConfigLoader = require('../infrastructure/config/RepoConfigLoader');
 
 class BddAiRunner {
-  constructor(apiKey, socket) {
+  constructor(apiKey, socket, repoConfig = null) {
     this.groq = new Groq({ apiKey });
     this.socket = socket;
+    this.repoConfig = repoConfig || RepoConfigLoader.load();
+    this.chaosEngine = new ChaosEngine(this.repoConfig);
   }
 
   async parseFeature(featurePath) {
@@ -93,33 +97,41 @@ class BddAiRunner {
 
           // Fast-path: If step is 'logged in'
           if (step.toLowerCase().includes('logged in as a')) {
-            const isSuper = step.toLowerCase().includes('super') || step.toLowerCase().includes('admin');
-            const isClient = step.toLowerCase().includes('client');
-            const isNotary = step.toLowerCase().includes('notar');
-            const isAssistant = step.toLowerCase().includes('pasante') || step.toLowerCase().includes('assistant') || step.toLowerCase().includes('paralegal');
+            const creds = this.repoConfig.auth.credentials;
+            let emailToUse = '';
+            let passToUse = '';
 
-            let emailToUse = 'abogado@mendezgarza.mx';
-            let passToUse = 'Password123!';
-
-            if (isSuper) {
-              emailToUse = 'admin@abogalia.mx';
-            } else if (isClient) {
-              emailToUse = 'cliente@gmail.com';
-            } else if (isNotary) {
-              emailToUse = 'notario@notaria123cdmx.com';
-            } else if (isAssistant) {
-              emailToUse = 'pasante@mendezgarza.mx';
+            const normalizedStep = step.toLowerCase();
+            for (const [roleKey, roleCreds] of Object.entries(creds)) {
+              if (normalizedStep.includes(roleKey.toLowerCase())) {
+                emailToUse = roleCreds.email;
+                passToUse = roleCreds.password;
+                break;
+              }
+            }
+            if (!emailToUse) {
+              const defaultCred = creds.default || Object.values(creds)[0];
+              emailToUse = defaultCred?.email || 'user@example.com';
+              passToUse = defaultCred?.password || 'Password123!';
             }
 
-            const isAuthed = await page.evaluate(async () => {
-              const token = localStorage.getItem('abogalia_token') || localStorage.getItem('abogalia_auth_token');
-              const userRaw = localStorage.getItem('abogalia_user');
-              if (!token || !userRaw) return false;
-              return true;
-            }).catch(() => false);
+            const tokenKeys = this.repoConfig.auth.tokenKeys;
+            const userKeys = this.repoConfig.auth.userKeys;
+
+            const isAuthed = await page.evaluate(async ({ tokenKeys, userKeys }) => {
+              let hasToken = false;
+              for (const k of tokenKeys) {
+                if (localStorage.getItem(k)) { hasToken = true; break; }
+              }
+              let hasUser = false;
+              for (const k of userKeys) {
+                if (localStorage.getItem(k)) { hasUser = true; break; }
+              }
+              return hasToken && hasUser;
+            }, { tokenKeys, userKeys }).catch(() => false);
 
             if (!isAuthed || page.url().includes('/login')) {
-              const loginTarget = authConfig?.loginUrl || 'http://localhost:5174/login';
+              const loginTarget = authConfig?.loginUrl || this.repoConfig.loginUrl;
               await page.goto(loginTarget);
               await page.waitForLoadState('domcontentloaded').catch(() => {});
               await page.fill('input[type="email"]', emailToUse);
@@ -255,20 +267,12 @@ class BddAiRunner {
             continue;
           }
 
-          // --- CHAOS ENGINEERING & PENTESTING FAST-PATHS ---
+          // --- CHAOS ENGINEERING & PENTESTING FAST-PATHS (SOLID: DELEGATED TO ChaosEngine) ---
           if (step.toLowerCase().includes('idor') || (step.toLowerCase().includes('unauthorized') && (step.toLowerCase().includes('download') || step.toLowerCase().includes('query')))) {
             const matchUrl = step.match(/"([^"]+)"/);
-            const targetEndpoint = matchUrl ? matchUrl[1] : '/api/v1/client-portal/cases/999';
-            await page.evaluate(async (url) => {
-              try {
-                const token = localStorage.getItem('abogalia_token');
-                const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                window.__lastSecurityStatus = res.status;
-              } catch (_) {
-                window.__lastSecurityStatus = 403;
-              }
-            }, targetEndpoint);
-            this.socket.emit('log', { type: 'success', message: `🛡️ [Chaos IDOR] Intento de acceso no autorizado interceptado: ${targetEndpoint}` });
+            const targetEndpoint = matchUrl ? matchUrl[1] : this.repoConfig.security.defaultIdorEndpoint;
+            await this.chaosEngine.executeIdorCheck(page, targetEndpoint);
+            this.socket.emit('log', { type: 'success', message: `🛡️ [Chaos IDOR] Intento de acceso no autorizado verificado via ChaosEngine: ${targetEndpoint}` });
             scenario.stepResults.push({
               step,
               status: 'passed',
@@ -283,16 +287,9 @@ class BddAiRunner {
           if (step.toLowerCase().includes('simultaneous') || step.toLowerCase().includes('concurrent') || step.toLowerCase().includes('double-spend')) {
             const countMatch = step.match(/(\d+)\s+simultaneous/i) || step.match(/(\d+)\s+concurrent/i);
             const count = countMatch ? parseInt(countMatch[1], 10) : 5;
-            await page.evaluate(async (n) => {
-              const promises = Array.from({ length: n }).map(() =>
-                fetch('/api/v1/escrow/release-milestone', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ milestone_id: 1 })
-                }).then(r => r.status).catch(() => 409)
-              );
-              window.__raceStatuses = await Promise.all(promises);
-            }, count);
+            const matchUrl = step.match(/"([^"]+)"/);
+            const targetEndpoint = matchUrl ? matchUrl[1] : this.repoConfig.security.defaultRaceEndpoint;
+            await this.chaosEngine.executeRaceCondition(page, targetEndpoint, count, { milestone_id: 1, case_id: 1 });
             this.socket.emit('log', { type: 'success', message: `⚡ [Chaos Concurrency] Disparadas ${count} transacciones concurrentes con control de bloqueo transaccional` });
             scenario.stepResults.push({
               step,
@@ -306,14 +303,9 @@ class BddAiRunner {
           }
 
           if (step.toLowerCase().includes('jwt token') || step.toLowerCase().includes('tamper the local storage')) {
-            await page.evaluate((stepText) => {
-              if (stepText.includes('alg: none') || stepText.includes('expired') || stepText.includes('super_admin')) {
-                localStorage.removeItem('abogalia_token');
-                localStorage.removeItem('abogalia_auth_token');
-                localStorage.removeItem('abogalia_user');
-              }
-            }, step.toLowerCase());
-            this.socket.emit('log', { type: 'success', message: `🔑 [Chaos JWT] Manipulación de token simulada, sesión revocada en storage` });
+            const tamperType = step.toLowerCase().includes('alg: none') ? 'none' : (step.toLowerCase().includes('expired') ? 'expired' : 'tampered');
+            await this.chaosEngine.executeJwtTampering(page, tamperType);
+            this.socket.emit('log', { type: 'success', message: `🔑 [Chaos JWT] Manipulación de token simulada via ChaosEngine, sesión revocada en storage` });
             scenario.stepResults.push({
               step,
               status: 'passed',
@@ -339,14 +331,12 @@ class BddAiRunner {
           }
 
           if (step.toLowerCase().includes('burst rate') || step.toLowerCase().includes('continuous parameter') || step.toLowerCase().includes('simulate 30 concurrent')) {
-            await page.evaluate(async () => {
-              const start = performance.now();
-              for (let i = 0; i < 5; i++) {
-                try { await fetch('/?q=estres_test', { method: 'GET' }); } catch (_) {}
-              }
-              window.__perfDuration = performance.now() - start;
-            });
-            this.socket.emit('log', { type: 'success', message: `🚀 [Chaos Performance] Carga masiva y ráfaga ejecutada con latencia estable` });
+            const countMatch = step.match(/(\d+)\s+rapid/i) || step.match(/(\d+)\s+concurrent/i);
+            const count = countMatch ? parseInt(countMatch[1], 10) : 5;
+            const matchUrl = step.match(/"([^"]+)"/);
+            const targetEndpoint = matchUrl ? matchUrl[1] : this.repoConfig.security.throttlingEndpoint;
+            await this.chaosEngine.executePerformanceBurst(page, targetEndpoint, count);
+            this.socket.emit('log', { type: 'success', message: `🚀 [Chaos Performance] Carga masiva y ráfaga ejecutada via ChaosEngine con latencia estable` });
             scenario.stepResults.push({
               step,
               status: 'passed',
