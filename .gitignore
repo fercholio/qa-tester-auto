@@ -2,3 +2,5 @@
 *.png
 *.xml
 report.xml
+auth_*.json
+auth_default.json

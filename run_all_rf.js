@@ -15,16 +15,16 @@ class MockSocket {
 
 async function runAll() {
   const startTime = Date.now();
-  const featuresDir = path.join(__dirname, 'bdd', 'features');
-  const files = fs.readdirSync(featuresDir).filter(f => f.endsWith('.feature'));
+  const repoName = process.env.REPO_NAME || process.env.APP_NAME || 'abogalia';
+  const repoDir = path.join(__dirname, 'bdd', `features_${repoName}`);
+  const featuresDir = process.env.FEATURES_DIR
+    ? path.resolve(process.env.FEATURES_DIR)
+    : (fs.existsSync(repoDir) ? repoDir : path.join(__dirname, 'bdd', 'features'));
+  console.log(`📁 Usando directorio de features: ${featuresDir}`);
+  const files = fs.readdirSync(featuresDir).filter(f => f.endsWith('.feature')).sort();
   
-  const { execSync } = require('child_process');
-  try {
-    execSync('php artisan tinker --execute="App\\\\Models\\\\User::withTrashed()->where(\'email\', \'like\', \'test-iso%\')->forceDelete(); App\\\\Models\\\\Tenant::where(\'name\', \'like\', \'%ILCO%\')->orWhere(\'name\', \'like\', \'%Empresa Demo%\')->delete();"', {
-      cwd: '/Users/fercho/dev/timetracking/api',
-      stdio: 'ignore'
-    });
-  } catch (_) {}
+  const targetUrl = process.env.TARGET_URL || 'http://localhost:5174';
+  const loginUrl = process.env.LOGIN_URL || 'http://localhost:5174/login';
 
   const runner = new BddAiRunner(process.env.GROQ_API_KEY, new MockSocket());
   const featureResults = [];
@@ -35,7 +35,18 @@ async function runAll() {
   
   xmlReport += `  <testsuite name="BDD RF Tests" tests="${totalTests}">\n`;
   
+  const startFrom = process.env.START_FROM_FEATURE || null;
+  let skipping = !!startFrom;
+
   for (const file of files) {
+    if (skipping) {
+      if (file.includes(startFrom) || file === startFrom) {
+        skipping = false;
+      } else {
+        console.log(`⏩ Omitiendo (antes de ${startFrom}): ${file}`);
+        continue;
+      }
+    }
     const featurePath = path.join(featuresDir, file);
     console.log(`\n================================`);
     console.log(`🚀 Running feature: ${file}`);
@@ -43,10 +54,10 @@ async function runAll() {
     
     let result = null;
     try {
-      result = await runner.runFeature(featurePath, 'http://localhost:3000/platform', {
-        loginUrl: 'http://localhost:3000/login',
-        email: 'super@demo.com',
-        password: 'password'
+      result = await runner.runFeature(featurePath, targetUrl, {
+        loginUrl: loginUrl,
+        email: 'abogado@mendezgarza.mx',
+        password: 'Password123!'
       });
     } catch (e) {
       console.error(`Error executing ${file}:`, e);
@@ -97,7 +108,7 @@ async function runAll() {
     startTime,
     endTime,
     environment: {
-      targetUrl: process.env.TARGET_URL || 'http://localhost:3000',
+      targetUrl: process.env.TARGET_URL || 'http://localhost:5174',
       model: 'Groq / openai/gpt-oss-120b',
       browser: 'Playwright Chromium',
       node: process.version,
@@ -109,8 +120,8 @@ async function runAll() {
   const publicDir = path.join(__dirname, 'public');
   if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
   fs.writeFileSync(path.join(publicDir, 'report.html'), htmlContent);
-  const timeTrackingReport = path.resolve(__dirname, '..', 'timetracking', 'report.html');
-  try { fs.writeFileSync(timeTrackingReport, htmlContent); } catch (_) {}
+  const abogaliaReport = path.resolve(__dirname, '..', 'abogalia', 'report.html');
+  try { fs.writeFileSync(abogaliaReport, htmlContent); } catch (_) {}
 
   console.log(`\n======================================================`);
   console.log(`✨ BDD SUITE COMPLETED ✨`);
