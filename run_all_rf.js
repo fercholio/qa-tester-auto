@@ -122,8 +122,8 @@ async function runAll() {
   const publicDir = path.join(__dirname, 'public');
   if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
   fs.writeFileSync(path.join(publicDir, 'report.html'), htmlContent);
-  const abogaliaReport = path.resolve(__dirname, '..', 'abogalia', 'report.html');
-  try { fs.writeFileSync(abogaliaReport, htmlContent); } catch (_) {}
+  const repoReport = path.resolve(__dirname, '..', repoName, 'report.html');
+  try { fs.writeFileSync(repoReport, htmlContent); } catch (_) {}
 
   console.log(`\n======================================================`);
   console.log(`✨ BDD SUITE COMPLETED ✨`);

@@ -7,8 +7,11 @@
     "tokenKeys": ["auth_token", "access_token"],
     "userKeys": ["auth_user", "current_user"],
     "credentials": {
-      "super_admin": { "email": "superadmin@timetracking.com", "password": "Password123!" },
-      "tenant_admin": { "email": "tenantadmin@timetracking.com", "password": "Password123!" }
+      "super_admin": { "email": "super@demo.com", "password": "password" },
+      "tenant_admin": { "email": "admin@demo.com", "password": "password" },
+      "employee": { "email": "empleado@demo.com", "password": "password" },
+      "manager": { "email": "manager@demo.com", "password": "password" },
+      "default": { "email": "admin@demo.com", "password": "password" }
     }
   },
   "security": {
