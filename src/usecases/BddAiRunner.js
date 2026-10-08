@@ -350,6 +350,7 @@ class BddAiRunner {
 
           if (step.toLowerCase().startsWith('then the response status should be 403') ||
               step.toLowerCase().startsWith('then the system must reject') ||
+              step.toLowerCase().startsWith('then the system must safely abort') ||
               step.toLowerCase().startsWith('then the transaction access must be denied') ||
               step.toLowerCase().startsWith('then the system must prevent race condition') ||
               step.toLowerCase().startsWith('then the scheduling system must throttle') ||
